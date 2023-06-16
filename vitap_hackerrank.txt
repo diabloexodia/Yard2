@@ -1,0 +1,24 @@
+1. Cycle-Detection
+
+- init slow and fast with head node
+- while fast and slow is not null and the next node of fast is not null
+
+2. Sparse Arrays
+
+- Use hashmap to store the string(key) and no of times(value)
+- Use map.get(str) to check if the value of the key is null or not
+- If it exists, use map.put(str,map.get(str)+1) else map.put(str,1)
+
+3. Partition List
+
+- 3 separate lists : Smaller, Equal, greater
+- traverse through each element then add to the appropriate list.
+- Connect all the lists together 
+
+4. Alternate partition( no data swap allowed )
+
+- Use 2 lists if nothing is mentioned
+- Use fast and slow pointer to find the middle point ( when fast is not null and fast.next.next is not null)
+- split into 2 lists and then reverse the second list
+- print out both the list in an alternate fashion
+
