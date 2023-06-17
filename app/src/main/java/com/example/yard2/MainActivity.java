@@ -13,8 +13,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         System.out.println(1);
         System.out.println();
-        // the following change was made by @diabloexodia at 4:51 pm 17th-June-2023
+
 
         Toast.makeText(this, "New test change", Toast.LENGTH_SHORT).show();
+
     }
 }
