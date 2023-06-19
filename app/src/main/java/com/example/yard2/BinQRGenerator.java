@@ -6,7 +6,6 @@ import androidx.core.content.FileProvider;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -22,16 +21,13 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.xmp.impl.Utils;
-
-import org.w3c.dom.Document;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class QRGenerator extends AppCompatActivity
+public class BinQRGenerator extends AppCompatActivity
 {
     ImageView qrcode;
     EditText inputText;
@@ -41,7 +37,7 @@ public class QRGenerator extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrgenerator);
+        setContentView(R.layout.activity_binqrgenerator);
         qrcode=findViewById(R.id.qrgenerator);
         inputText=findViewById(R.id.inputText);
         generatebutton=findViewById(R.id.generatebutton);
@@ -71,7 +67,7 @@ public class QRGenerator extends AppCompatActivity
         QRCodeWriter qrCodeWriter=new QRCodeWriter();
         try
         {
-            BitMatrix bitMatrix=qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 400,400);
+            BitMatrix bitMatrix=qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 1200,1200);
             int width= bitMatrix.getWidth();
             int height= bitMatrix.getHeight();
             Bitmap qrCodeBitmap=Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
@@ -90,7 +86,9 @@ public class QRGenerator extends AppCompatActivity
     {
         try
         {
-            File pdfFile = new File(getFilesDir(), filename);
+            String filePath = getFilesDir().getPath() + File.separator + filename + ".pdf";
+            File pdfFile = new File(filePath);
+//            File pdfFile = new File(getFilesDir(), filename);
             OutputStream outputStream = new FileOutputStream(pdfFile);
 
             PdfWriter writer = new PdfWriter(outputStream);
@@ -121,15 +119,16 @@ public class QRGenerator extends AppCompatActivity
     {
         if (pdfFile != null)
         {
-            Uri pdfUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".fileprovider", pdfFile);
+            Uri pdfUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", pdfFile);
 
             Intent printIntent = new Intent(Intent.ACTION_SEND);
-            printIntent.setDataAndType(pdfUri, "application/pdf");
+            printIntent.setType("application/pdf");
+            printIntent.putExtra(Intent.EXTRA_STREAM, pdfUri);
             printIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
             try
             {
-                startActivity(printIntent);
+                startActivity(Intent.createChooser(printIntent, "Print PDF"));
             }
             catch (ActivityNotFoundException e)
             {
@@ -141,5 +140,4 @@ public class QRGenerator extends AppCompatActivity
             Toast.makeText(this, "PDF file not generated", Toast.LENGTH_SHORT).show();
         }
     }
-
 }
