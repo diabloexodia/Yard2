@@ -67,7 +67,7 @@ public class BinQRGenerator extends AppCompatActivity
         QRCodeWriter qrCodeWriter=new QRCodeWriter();
         try
         {
-            BitMatrix bitMatrix=qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 400,400);
+            BitMatrix bitMatrix=qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 1200,1200);
             int width= bitMatrix.getWidth();
             int height= bitMatrix.getHeight();
             Bitmap qrCodeBitmap=Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
