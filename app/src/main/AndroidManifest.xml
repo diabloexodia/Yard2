@@ -25,6 +25,12 @@
             android:name=".GenerateQR"
             android:exported="false" />
         <activity
+            android:name=".BinQRGenerator"
+            android:exported="false" />
+        <activity
+            android:name=".ReceiptGeneration"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
