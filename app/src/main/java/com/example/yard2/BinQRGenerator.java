@@ -6,10 +6,8 @@ import androidx.core.content.FileProvider;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,16 +21,13 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-import com.itextpdf.kernel.xmp.impl.Utils;
-
-import org.w3c.dom.Document;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
 
-public class QRGenerator extends AppCompatActivity
+public class BinQRGenerator extends AppCompatActivity
 {
     ImageView qrcode;
     EditText inputText;
@@ -42,7 +37,7 @@ public class QRGenerator extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_qrgenerator);
+        setContentView(R.layout.activity_binqrgenerator);
         qrcode=findViewById(R.id.qrgenerator);
         inputText=findViewById(R.id.inputText);
         generatebutton=findViewById(R.id.generatebutton);
