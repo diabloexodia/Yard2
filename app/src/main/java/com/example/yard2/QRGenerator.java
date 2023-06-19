@@ -19,7 +19,8 @@ public class QRGenerator extends AppCompatActivity
 {
     ImageView qrcode;
     EditText inputText;
-    Button generatebutton;
+    Button generatebutton, savepdfbutton;
+    Bitmap qrCodeBitmap;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -28,13 +29,14 @@ public class QRGenerator extends AppCompatActivity
         qrcode=findViewById(R.id.qrgenerator);
         inputText=findViewById(R.id.inputText);
         generatebutton=findViewById(R.id.generatebutton);
+        savepdfbutton=findViewById(R.id.savepdfbutton2);
         generatebutton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
                 String inputString=inputText.getText().toString();
-                Bitmap qrCodeBitmap=generateQRCode(inputString);
+                qrCodeBitmap=generateQRCode(inputString);
                 qrcode.setImageBitmap(qrCodeBitmap);
             }
         });
