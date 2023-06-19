@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="transport_types">
+
+        <item>TRUCK</item>
+        <item>TRAIN</item>
+    </string-array>
+
+</resources>

@@ -3,6 +3,7 @@ package com.example.yard2;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebView;
@@ -13,7 +14,7 @@ import android.widget.Toast;
 public class ProductReceive extends AppCompatActivity {
 
     static String product_id,product_grade,product_description;
-    static int bin_number;
+    static int bin_number,quantity;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
 
@@ -53,8 +54,12 @@ public class ProductReceive extends AppCompatActivity {
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
                 else
                 {
-                    //Databse input code
+                    quantity=Integer.valueOf(quantityEdittext.getText().toString());
                 }
+
+                Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
+                intent.putExtra("Quantity",quantity);
+                startActivity(intent);
             }
         });
 
