@@ -8,24 +8,37 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
-
-    Button productReceive;
+public class MainActivity extends AppCompatActivity
+{
+    Button productReceiveButton, qrgeneratorButton;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        productReceive=findViewById(R.id.productreceivingbutton);
+        productReceiveButton=findViewById(R.id.productreceivingbutton);
+        qrgeneratorButton=findViewById(R.id.qrbutton);
 
-        productReceive.setOnClickListener(new View.OnClickListener() {
+        productReceiveButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getApplicationContext(),ProductReceive.class);
-                startActivity(intent);
+            public void onClick(View view)
+            {
+                Intent productReceivingPage=new Intent(getApplicationContext(),ProductReceive.class);
+                startActivity(productReceivingPage);
             }
         });
 
+        qrgeneratorButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent qrGeneratorPage=new Intent(MainActivity.this, QRGenerator.class);
+                startActivity(qrGeneratorPage);
+            }
+        });
 
 
     }
