@@ -14,9 +14,8 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(1);
         System.out.println();
 
-        // Dhyan destroyed the change
-//        Toast.makeText(this, "New test change", Toast.LENGTH_SHORT).show();
-//        Toast.makeText(this, "PRANITH MADE THIS CHANGE BRO", Toast.LENGTH_SHORT).show();
 
+        Toast.makeText(this, "New test change", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "PRANITH MADE THIS CHANGE BRO", Toast.LENGTH_SHORT).show();
     }
 }
