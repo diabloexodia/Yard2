@@ -66,13 +66,13 @@ public class ProductReceive extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                //    Toast.makeText(ProductReceive.this,quantityEdittext.getText().toString() , Toast.LENGTH_SHORT).show();
+            //    Toast.makeText(ProductReceive.this,quantityEdittext.getText().toString() , Toast.LENGTH_SHORT).show();
 
                 if(quantityEdittext==null)
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
                 else
                 {
-                    //  quantity=Integer.valueOf(quantityEdittext.getText().toString());
+                    quantity=Integer.parseInt(quantityEdittext.getText().toString());
 
                     final String database_name="rinl_yard";
                     final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
@@ -86,13 +86,14 @@ public class ProductReceive extends AppCompatActivity
                             Statement statement = connection.createStatement();
                             // add to RDS DB:
                             statement.execute("INSERT INTO " + table_name + " VALUES('" + product_id + "', '" +product_description + "', '" +quantity+" ', ' "+bin_number +"', '" +product_grade + "')");
-                            connection.close();
-                        } catch (Exception e) {e.printStackTrace();}
+                             connection.close();
+                             } catch (Exception e) {e.printStackTrace();}
                     }).start();
                 }
 
                 Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
                 intent.putExtra("Quantity",quantity);
+                intent.putExtra("Product ID",product_id);
                 startActivity(intent);
             }
         });
