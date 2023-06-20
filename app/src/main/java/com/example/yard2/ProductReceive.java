@@ -11,10 +11,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
+
 public class ProductReceive extends AppCompatActivity {
 
-    static String product_id,product_grade,product_description;
-    static int bin_number,quantity;
+    static String product_id="AB457",product_grade="X1",product_description="Steel Sticks";
+    static int bin_number=291,quantity=74;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
 
@@ -54,7 +58,26 @@ public class ProductReceive extends AppCompatActivity {
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
                 else
                 {
-                    quantity=Integer.valueOf(quantityEdittext.getText().toString());
+                  //  quantity=Integer.valueOf(quantityEdittext.getText().toString());
+
+
+                    final String database_name="rinl_yard";
+                    final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
+                    final String username="admin",password="admin123";
+                    final String table_name="Product_Master";
+
+                    new Thread(() -> {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(url, username, password);
+                            Statement statement = connection.createStatement();
+                            // add to RDS DB:
+                            statement.execute("INSERT INTO " + table_name + " VALUES('" + product_id + "', '" +product_description + "', '" +quantity+" ', ' "+bin_number +"', '" +product_grade + "')");
+                             connection.close();
+                             } catch (Exception e) {e.printStackTrace();}
+                    }).start();
+
+
                 }
 
                 Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
