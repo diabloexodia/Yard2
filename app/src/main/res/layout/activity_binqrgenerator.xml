@@ -9,32 +9,45 @@
 
     <ImageView
         android:id="@+id/qrgenerator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.601" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/binnoTextInputLayout"
+        android:layout_width="329dp"
+        android:layout_height="72dp"
+        android:layout_margin="4dp"
+        android:hint="Enter Bin Number"
+        android:textColorHint="#000000"
+        app:boxBackgroundMode="none"
+        app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.544" />
+        app:layout_constraintVertical_bias="0.292">
 
-    <EditText
-        android:id="@+id/inputText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="text"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.288" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/inputText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/rounded_edittext_background"
+            android:inputType="text"
+            android:maxLines="1" />
+    </com.google.android.material.textfield.TextInputLayout>
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/generatebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Generate"
+        android:background="@drawable/rounded_edittext_background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
@@ -42,11 +55,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.808" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/savepdfbutton2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
+        android:background="@drawable/rounded_edittext_background"
         android:text="Print/Save as pdf"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,7 +72,7 @@
         android:id="@+id/enterbinno"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Enter the bin number:"
+        android:text="Bin QR Generator"
         android:textColor="?attr/colorOnSecondary"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
