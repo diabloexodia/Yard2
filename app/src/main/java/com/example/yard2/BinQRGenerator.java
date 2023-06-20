@@ -88,7 +88,6 @@ public class BinQRGenerator extends AppCompatActivity
         {
             String filePath = getFilesDir().getPath() + File.separator + filename + ".pdf";
             File pdfFile = new File(filePath);
-//            File pdfFile = new File(getFilesDir(), filename);
             OutputStream outputStream = new FileOutputStream(pdfFile);
 
             PdfWriter writer = new PdfWriter(outputStream);
