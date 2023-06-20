@@ -31,7 +31,8 @@ public class GenerateQR extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-//                Intent materialgeneratorpage=new Intent(GenerateQR.this,MaterialQRGenerator.class);
+                Intent materialgeneratorpage=new Intent(GenerateQR.this,MaterialQRGenerator.class);
+                startActivity(materialgeneratorpage);
             }
         });
     }
