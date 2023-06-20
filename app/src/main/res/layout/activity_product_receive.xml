@@ -6,20 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ProductReceive">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="88dp"
-        android:layout_height="37dp"
-        android:text="Quantity"
-        android:textAlignment="center"
-        android:textSize="50px"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.219"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.455" />
-
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/quantityTextInputLayout"
