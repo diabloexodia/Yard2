@@ -18,7 +18,7 @@ public class ReceiptGeneration extends AppCompatActivity {
         Intent intent = getIntent();
         quantityTextView=findViewById(R.id.QuantityEdittext);
         quantityTextView.setText(Integer.toString(intent.getIntExtra("Quantity",-1)));
-// haha
+
     }
 
 
