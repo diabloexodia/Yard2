@@ -45,6 +45,13 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".CaptureActivityPortrait"
+            android:screenOrientation="portrait"
+            android:stateNotNeeded="true"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen"/>
+
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.example.yard2.provider"
