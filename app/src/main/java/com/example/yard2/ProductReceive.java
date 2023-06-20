@@ -61,9 +61,11 @@ public class ProductReceive extends AppCompatActivity
                 startQRcodeScanning("Scan the Bin QR code");
             }
         });
-        generateReceipt.setOnClickListener(new View.OnClickListener() {
+        generateReceipt.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
+            public void onClick(View view)
+            {
                 //    Toast.makeText(ProductReceive.this,quantityEdittext.getText().toString() , Toast.LENGTH_SHORT).show();
 
                 if(quantityEdittext==null)
@@ -71,7 +73,6 @@ public class ProductReceive extends AppCompatActivity
                 else
                 {
                     //  quantity=Integer.valueOf(quantityEdittext.getText().toString());
-
 
                     final String database_name="rinl_yard";
                     final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
@@ -88,8 +89,6 @@ public class ProductReceive extends AppCompatActivity
                             connection.close();
                         } catch (Exception e) {e.printStackTrace();}
                     }).start();
-
-
                 }
 
                 Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
