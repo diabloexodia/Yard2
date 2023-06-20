@@ -1,5 +1,6 @@
 package com.example.yard2;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
@@ -11,20 +12,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
-public class ProductReceive extends AppCompatActivity {
-
-    static String product_id="AB457",product_grade="X1",product_description="Steel Sticks";
-    static int bin_number=291,quantity=74;
+public class ProductReceive extends AppCompatActivity
+{
+    String qrText;
+    String product_id,product_grade,product_description;
+    static int bin_number,quantity;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_receive);
 
@@ -33,20 +39,26 @@ public class ProductReceive extends AppCompatActivity {
         generateReceipt=findViewById(R.id.generateReceipt);
         quantityEdittext= findViewById(R.id.qtyEditText);
 
+        product_id="";
+        product_grade="";
+        product_description="";
+        qrText="";
 
-
-        materialScanButton.setOnClickListener(new View.OnClickListener() {
+        materialScanButton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                //assign value for  product_id,product_grade,product_description
+            public void onClick(View view)
+            {
+                startQRcodeScanning("Scan the Material QR code");
             }
         });
 
-
-        binScanbutton.setOnClickListener(new View.OnClickListener() {
+        binScanbutton.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View view) {
-                //assign value for bin_number
+            public void onClick(View view)
+            {
+                startQRcodeScanning("Scan the Bin QR code");
             }
         });
         generateReceipt.setOnClickListener(new View.OnClickListener() {
@@ -85,7 +97,41 @@ public class ProductReceive extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+    }
+    private void startQRcodeScanning(String displayText)
+    {
+        IntentIntegrator integrator=new IntentIntegrator(this);
+        integrator.setPrompt(displayText);
+        integrator.setOrientationLocked(false);
+        integrator.setCaptureActivity(CaptureActivityPortrait.class);
+        integrator.initiateScan();
+    }
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
+    {
+        super.onActivityResult(requestCode, resultCode, data);
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if (result != null)
+        {
+            if (result.getContents() == null)
+            {
+                Toast.makeText(this, "Scanning cancelled", Toast.LENGTH_SHORT).show();
+            }
+            else
+            {
+                qrText = result.getContents();
+                String[] qrValues = qrText.split(",");
 
-
+                if (qrValues.length == 3)
+                {
+                    product_id = qrValues[0].trim();
+                    product_grade = qrValues[1].trim();
+                    product_description = qrValues[2].trim();
+                }
+                else
+                {
+                    bin_number=Integer.valueOf(qrText);
+                }
+            }
+        }
     }
 }
