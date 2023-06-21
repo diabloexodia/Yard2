@@ -15,6 +15,7 @@ public class GenerateQR extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_generate_qr);
+        getSupportActionBar().setTitle("Generate QR code");
         binqrgeneratorbutton=findViewById(R.id.bingenerator);
         materialqrgeneratorbutton=findViewById(R.id.materialgenerator);
         binqrgeneratorbutton.setOnClickListener(new View.OnClickListener()

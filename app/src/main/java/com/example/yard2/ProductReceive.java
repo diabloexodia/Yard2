@@ -33,6 +33,7 @@ public class ProductReceive extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_receive);
+        getSupportActionBar().setTitle("Product Receipt");
 
         materialScanButton=findViewById(R.id.materialScan);
         binScanbutton=findViewById(R.id.binScan);

@@ -8,8 +8,9 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="400px"
-        android:layout_height="400px"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="100dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -18,7 +19,7 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.234">
+        app:layout_constraintVertical_bias="0.027">
 
         <Button
             android:id="@+id/bingenerator"
@@ -37,8 +38,9 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="400px"
-        android:layout_height="400px"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="100dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -47,15 +49,15 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.778">
+        app:layout_constraintVertical_bias="1.0">
 
         <Button
             android:id="@+id/materialgenerator"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableTop="@drawable/steel_beam"
             android:layout_gravity="center"
             android:background="@android:color/transparent"
+            android:drawableTop="@drawable/steel_beam"
             android:text="Generate material QR Code"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
