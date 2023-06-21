@@ -12,6 +12,9 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -73,7 +76,30 @@ public class ReceiptGeneration extends AppCompatActivity {
                 if(quantityTextView.getText().toString().equals("-1")|| remarksEditText.getText().toString().equals(" "))
                     Toast.makeText(ReceiptGeneration.this, "Check Quantity or Remarks", Toast.LENGTH_SHORT).show();
                 else {
-                    Intent intent2 = new Intent(ReceiptGeneration.this, ReceiptSuccessPage.class);
+
+
+
+                    final String database_name="rinl_yard";
+                    final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
+                    final String username="admin",password="admin123";
+                    final String table_name="Yard_Receipts";
+
+                    new Thread(() -> {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(url, username, password);
+                            Statement statement = connection.createStatement();
+                            // add to RDS DB:
+                           statement.execute("INSERT INTO " + table_name + " VALUES('" + receiptTextView.getText().toString() + "', '" +transportTextView + "', '" +productIdTextView.getText().toString()+" ', ' "+dateTextView.getText().toString() +"', '" +quantityTextView.getText().toString() +"', '" + remarksEditText.getText().toString() +"')");
+                           // statement.execute("INSERT INTO " + table_name + " VALUES('" + "agb12" + "', '" +"TRUCK" + "', '" +"abc"+" ', ' "+"2020-12-21" +"', '" +21 +"', '" + "worst" +"')");
+
+                            connection.close();
+                        } catch (Exception e) {e.printStackTrace();}
+                    }).start();
+
+
+
+                Intent intent2 = new Intent(ReceiptGeneration.this, ReceiptSuccessPage.class);
                     intent2.putExtra("Product ID",productIdTextView.getText().toString());
                     intent2.putExtra("Quantity",quantityTextView.getText().toString());
                     intent2.putExtra("Receipt ID",receiptTextView.getText().toString());
