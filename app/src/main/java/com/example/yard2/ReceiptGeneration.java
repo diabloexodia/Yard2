@@ -14,17 +14,19 @@ import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class ReceiptGeneration extends AppCompatActivity {
 
-         TextView quantityTextView,productIdTextView,dateTextView,receiptTextView;
-         EditText remarksEditText;
-        Button sumbitButton;
-       private String transportTextView;
-        Spinner transportTypeSpinner;
+    TextView quantityTextView, productIdTextView, dateTextView, receiptTextView;
+    EditText remarksEditText;
+    Button sumbitButton;
+    Spinner transportTypeSpinner;
+    private String transportTextView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,14 +34,14 @@ public class ReceiptGeneration extends AppCompatActivity {
         getSupportActionBar().setTitle("Generate Receipt");
 
         Intent intent = getIntent();
-        quantityTextView=findViewById(R.id.QuantityEdittext);
-        remarksEditText=findViewById(R.id.RemarksEditText);
-        receiptTextView=findViewById(R.id.receiptIdEditText);
-        dateTextView=findViewById(R.id.dateEdittext);
+        quantityTextView = findViewById(R.id.QuantityEdittext);
+        remarksEditText = findViewById(R.id.RemarksEditText);
+        receiptTextView = findViewById(R.id.receiptIdEditText);
+        dateTextView = findViewById(R.id.dateEdittext);
         transportTypeSpinner = findViewById(R.id.transportTypeSpinner);
-        productIdTextView=findViewById(R.id.productIdEditText);
+        productIdTextView = findViewById(R.id.productIdEditText);
 
-        quantityTextView.setText(Integer.toString(intent.getIntExtra("Quantity",-1)));
+        quantityTextView.setText(Integer.toString(intent.getIntExtra("Quantity", -1)));
         productIdTextView.setText(intent.getStringExtra("Product ID"));
 
         // -----------Date-----------------------------------------------------
@@ -47,7 +49,6 @@ public class ReceiptGeneration extends AppCompatActivity {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         dateTextView.setText(dateFormat.format(currentDate));
         // -----------Date------------------------------------------------------
-
 
 
         // ------------Transport Type---------------------------------------------------------------
@@ -69,44 +70,54 @@ public class ReceiptGeneration extends AppCompatActivity {
         receiptTextView.setText("76AHE");
         //------------------Receipt ID-------------------
 
-        sumbitButton=findViewById(R.id.ReceiptGenerationSubmitButton);
+        sumbitButton = findViewById(R.id.ReceiptGenerationSubmitButton);
         sumbitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                if(quantityTextView.getText().toString().equals("-1")|| remarksEditText.getText().toString().equals(" "))
+                if (quantityTextView.getText().toString().equals("-1") || remarksEditText.getText().toString().equals(" "))
                     Toast.makeText(ReceiptGeneration.this, "Check Quantity or Remarks", Toast.LENGTH_SHORT).show();
                 else {
 
 
-
-                    final String database_name="rinl_yard";
-                    final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
-                    final String username="admin",password="admin123";
-                    final String table_name="Yard_Receipts";
+                    final String database_name = "rinl_yard";
+                    final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
+                    final String username = "admin", password = "admin123";
+                    final String table_name = "Yard_Receipts";
 
                     new Thread(() -> {
+
+//
                         try {
                             Class.forName("com.mysql.jdbc.Driver");
                             Connection connection = DriverManager.getConnection(url, username, password);
                             Statement statement = connection.createStatement();
-                            // add to RDS DB:
-                           statement.execute("INSERT INTO " + table_name + " VALUES('" + receiptTextView.getText().toString() + "', '" +transportTextView + "', '" +productIdTextView.getText().toString()+" ', ' "+dateTextView.getText().toString() +"', '" +quantityTextView.getText().toString() +"', '" + remarksEditText.getText().toString() +"')");
-                           // statement.execute("INSERT INTO " + table_name + " VALUES('" + "agb12" + "', '" +"TRUCK" + "', '" +"abc"+" ', ' "+"2020-12-21" +"', '" +21 +"', '" + "worst" +"')");
-
+                            // Add to RDS DB with proper value for the foreign key:
+                            String insertQuery = "INSERT INTO " + table_name + " VALUES(?, ?, ?, ?, ?, ?)";
+                            PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+                            preparedStatement.setString(1, receiptTextView.getText().toString());
+                            preparedStatement.setString(2, transportTextView);
+                            preparedStatement.setString(3, productIdTextView.getText().toString());
+                            preparedStatement.setString(4, dateTextView.getText().toString());
+                            preparedStatement.setString(5, quantityTextView.getText().toString());
+                            preparedStatement.setString(6, remarksEditText.getText().toString());
+                            preparedStatement.execute();
                             connection.close();
-                        } catch (Exception e) {e.printStackTrace();}
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
+
                     }).start();
 
 
-
-                Intent intent2 = new Intent(ReceiptGeneration.this, ReceiptSuccessPage.class);
-                    intent2.putExtra("Product ID",productIdTextView.getText().toString());
-                    intent2.putExtra("Quantity",quantityTextView.getText().toString());
-                    intent2.putExtra("Receipt ID",receiptTextView.getText().toString());
-                    intent2.putExtra("Date",dateTextView.getText().toString());
-                    intent2.putExtra("Remarks",remarksEditText.getText().toString());
-                    intent2.putExtra("Transport",transportTextView);
+                    Intent intent2 = new Intent(ReceiptGeneration.this, ReceiptSuccessPage.class);
+                    intent2.putExtra("Product ID", productIdTextView.getText().toString());
+                    intent2.putExtra("Quantity", quantityTextView.getText().toString());
+                    intent2.putExtra("Receipt ID", receiptTextView.getText().toString());
+                    intent2.putExtra("Date", dateTextView.getText().toString());
+                    intent2.putExtra("Remarks", remarksEditText.getText().toString());
+                    intent2.putExtra("Transport", transportTextView);
                     startActivity(intent2);
                 }
             }

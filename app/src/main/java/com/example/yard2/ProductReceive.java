@@ -85,7 +85,7 @@ public class ProductReceive extends AppCompatActivity
                             Class.forName("com.mysql.jdbc.Driver");
                             Connection connection = DriverManager.getConnection(url, username, password);
                             Statement statement = connection.createStatement();
-                            // add to RDS DB:
+
                             statement.execute("INSERT INTO " + table_name + " VALUES('" + product_id + "', '" +product_description + "', '" +quantity+" ', ' "+bin_number +"', '" +product_grade + "')");
                              //connection.close();
                              } catch (Exception e) {e.printStackTrace();}
