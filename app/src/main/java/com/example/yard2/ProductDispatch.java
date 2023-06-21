@@ -19,7 +19,7 @@ public class ProductDispatch extends AppCompatActivity
     Button binScanner, materialScanner,generate;
     EditText sales_order_id;
     String qrText, product_id2, salesorderid;
-    int bin_number2, quantity2;
+    int bin_number2;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -54,10 +54,11 @@ public class ProductDispatch extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
+                salesorderid=sales_order_id.getText().toString();
+
                 Intent receiptgenpage=new Intent(ProductDispatch.this,DispatchReceiptGeneration.class);
                 receiptgenpage.putExtra("productid",product_id2);
                 receiptgenpage.putExtra("salesorderid",salesorderid);
-                receiptgenpage.putExtra("quantity",quantity2);
                 startActivity(receiptgenpage);
             }
         });
