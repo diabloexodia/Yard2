@@ -38,6 +38,7 @@ public class BinQRGenerator extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binqrgenerator);
+        getSupportActionBar().setTitle("Generate Bin QR Code");
         qrcode=findViewById(R.id.qrgenerator);
         inputText=findViewById(R.id.inputText);
         generatebutton=findViewById(R.id.generatebutton);

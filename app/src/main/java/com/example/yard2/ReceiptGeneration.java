@@ -26,6 +26,7 @@ public class ReceiptGeneration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_generation);
+        getSupportActionBar().setTitle("Generate Receipt");
 
         Intent intent = getIntent();
         quantityTextView=findViewById(R.id.QuantityEdittext);

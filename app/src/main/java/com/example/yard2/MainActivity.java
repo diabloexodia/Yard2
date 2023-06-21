@@ -15,6 +15,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        getSupportActionBar().setTitle("Home");
 
         productReceiveButton=findViewById(R.id.productreceivingbutton);
         qrgeneratorButton=findViewById(R.id.qrbutton);

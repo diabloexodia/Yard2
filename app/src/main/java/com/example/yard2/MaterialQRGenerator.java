@@ -41,6 +41,7 @@ public class MaterialQRGenerator extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_material_qrgenerator);
+        getSupportActionBar().setTitle("Generate Material QR Code");
         productid=findViewById(R.id.productid);
         productdesc=findViewById(R.id.productdesc);
         productgrade=findViewById(R.id.productgrade);
