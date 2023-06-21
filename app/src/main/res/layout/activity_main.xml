@@ -8,8 +8,8 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
         android:layout_marginLeft="15dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
@@ -38,8 +38,8 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
         android:layout_marginRight="15dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
@@ -69,8 +69,8 @@
 
 
     <androidx.cardview.widget.CardView
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
         android:layout_marginLeft="20dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
@@ -99,8 +99,8 @@
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
-        android:layout_width="175dp"
-        android:layout_height="175dp"
+        android:layout_width="159dp"
+        android:layout_height="159dp"
         android:layout_marginRight="15dp"
         android:backgroundTint="#ffc650"
         app:cardCornerRadius="20dp"
