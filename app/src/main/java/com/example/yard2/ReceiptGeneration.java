@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Random;
 
 public class ReceiptGeneration extends AppCompatActivity {
 
@@ -67,7 +68,7 @@ public class ReceiptGeneration extends AppCompatActivity {
         // ------------Transport Type---------------------------------------------------------------
 
         //-------------------Receipt ID------------------
-        receiptTextView.setText("76AHE");
+        receiptTextView.setText(generateRandomString(6));
         //------------------Receipt ID-------------------
 
         sumbitButton = findViewById(R.id.ReceiptGenerationSubmitButton);
@@ -123,6 +124,19 @@ public class ReceiptGeneration extends AppCompatActivity {
             }
         });
 
+    }
+
+    public static String generateRandomString(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+          final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(index);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
     }
 
 
