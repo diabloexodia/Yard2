@@ -45,7 +45,7 @@
         android:id="@+id/binnoTextInputLayout"
         android:layout_width="329dp"
         android:layout_height="72dp"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:layout_margin="4dp"
         android:hint="Enter Bin Number"
         android:textColorHint="#000000"
