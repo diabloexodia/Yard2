@@ -127,10 +127,12 @@ public class ProductReceive extends AppCompatActivity
                     product_id = qrValues[0].trim();
                     product_grade = qrValues[1].trim();
                     product_description = qrValues[2].trim();
+                    Toast.makeText(this, "Material data accepted", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
                     bin_number=Integer.valueOf(qrText);
+                    Toast.makeText(this, "Bin data accepted", Toast.LENGTH_SHORT).show();
                 }
             }
         }
