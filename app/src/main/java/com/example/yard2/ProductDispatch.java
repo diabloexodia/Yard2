@@ -18,8 +18,8 @@ public class ProductDispatch extends AppCompatActivity
 {
     Button binScanner, materialScanner,generate;
     EditText sales_order_id;
-    String qrText, product_id;
-    int bin_number;
+    String qrText, product_id2, salesorderid;
+    int bin_number2, quantity2;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,6 +55,9 @@ public class ProductDispatch extends AppCompatActivity
             public void onClick(View v)
             {
                 Intent receiptgenpage=new Intent(ProductDispatch.this,DispatchReceiptGeneration.class);
+                receiptgenpage.putExtra("productid",product_id2);
+                receiptgenpage.putExtra("salesorderid",salesorderid);
+                receiptgenpage.putExtra("quantity",quantity2);
                 startActivity(receiptgenpage);
             }
         });
@@ -84,12 +87,12 @@ public class ProductDispatch extends AppCompatActivity
 
                 if (qrValues.length == 3)
                 {
-                    product_id = qrValues[0].trim();
+                    product_id2 = qrValues[0].trim();
                     Toast.makeText(this, "Material data accepted", Toast.LENGTH_SHORT).show();
                 }
                 else
                 {
-                    bin_number=Integer.valueOf(qrText);
+                    bin_number2=Integer.valueOf(qrText);
                     Toast.makeText(this, "Bin data accepted", Toast.LENGTH_SHORT).show();
                 }
             }
