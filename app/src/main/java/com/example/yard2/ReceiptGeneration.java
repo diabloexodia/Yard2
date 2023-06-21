@@ -107,8 +107,6 @@ public class ReceiptGeneration extends AppCompatActivity {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-
-
                     }).start();
 
 
