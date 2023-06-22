@@ -28,6 +28,19 @@ public class ReceiptGeneration extends AppCompatActivity {
     Spinner transportTypeSpinner;
     private String transportTextView;
 
+    public static String generateRandomString(int length) {
+        StringBuilder sb = new StringBuilder();
+        Random random = new Random();
+        final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        for (int i = 0; i < length; i++) {
+            int index = random.nextInt(CHARACTERS.length());
+            char randomChar = CHARACTERS.charAt(index);
+            sb.append(randomChar);
+        }
+
+        return sb.toString();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,7 +101,7 @@ public class ReceiptGeneration extends AppCompatActivity {
 
                     new Thread(() -> {
 
-//
+
                         try {
                             Class.forName("com.mysql.jdbc.Driver");
                             Connection connection = DriverManager.getConnection(url, username, password);
@@ -122,19 +135,6 @@ public class ReceiptGeneration extends AppCompatActivity {
             }
         });
 
-    }
-
-    public static String generateRandomString(int length) {
-        StringBuilder sb = new StringBuilder();
-        Random random = new Random();
-          final String CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        for (int i = 0; i < length; i++) {
-            int index = random.nextInt(CHARACTERS.length());
-            char randomChar = CHARACTERS.charAt(index);
-            sb.append(randomChar);
-        }
-
-        return sb.toString();
     }
 
 

@@ -14,12 +14,18 @@ import android.widget.Toast;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.Statement;
+
 public class ProductDispatch extends AppCompatActivity
 {
     Button binScanner, materialScanner,generate;
     EditText sales_order_id;
-    String qrText, product_id2, salesorderid;
-    int bin_number2;
+    String qrText, product_id2, salesorderid,productID="";
+    double quantity=-1.0;
+    int bin_number2=-1;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -56,10 +62,60 @@ public class ProductDispatch extends AppCompatActivity
             {
                 salesorderid=sales_order_id.getText().toString();
 
-                Intent receiptgenpage=new Intent(ProductDispatch.this,DispatchReceiptGeneration.class);
-                receiptgenpage.putExtra("productid",product_id2);
+                final String database_name="rinl_yard";
+                final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
+                final String username="admin",password="admin123";
+                final String table_name="Product_Master";
+
+                if(productID.isEmpty() && bin_number2==-1)
+                {
+                    Toast.makeText(ProductDispatch.this, "Scan the material or bin first", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    new Thread(() -> {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(url, username, password);
+                            Statement statement = connection.createStatement();
+                            ResultSet resultSet;
+                            String selectQuery;
+                            if (bin_number2 != -1) {
+                                selectQuery = "SELECT Product_Id,Stock_In_Tons FROM " + table_name + " WHERE Bin_No = " + bin_number2;
+                                resultSet = statement.executeQuery(selectQuery);
+                                if (resultSet.next()) {
+                                    productID = resultSet.getString("Product_Id");
+                                    quantity = resultSet.getDouble("Stock_In_Tons");
+                                }
+                            } else {
+                                selectQuery = "SELECT Stock_In_Tons FROM " + table_name + " WHERE Product_Id = " + productID;
+                                resultSet = statement.executeQuery(selectQuery);
+                                if (resultSet.next()) {
+                                    quantity = resultSet.getDouble("Stock_In_Tons");
+                                }
+                            }
+
+                            // Retrieve the Product_Id value from the ResultSet
+
+
+                            //connection.close();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+                }
+
+
+                if(quantity!=-1.0 && !productID.isEmpty()){
+                                    Intent receiptgenpage=new Intent(ProductDispatch.this,DispatchReceiptGeneration.class);
+                receiptgenpage.putExtra("productid",productID);
                 receiptgenpage.putExtra("salesorderid",salesorderid);
+                receiptgenpage.putExtra("Quantity",quantity);
                 startActivity(receiptgenpage);
+                }
+                else {
+                    Toast.makeText(ProductDispatch.this, "Please Wait !", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
@@ -90,13 +146,16 @@ public class ProductDispatch extends AppCompatActivity
                 {
                     product_id2 = qrValues[0].trim();
                     Toast.makeText(this, "Material data accepted", Toast.LENGTH_SHORT).show();
+                    productID=product_id2;
+
                 }
                 else
                 {
                     bin_number2=Integer.valueOf(qrText);
                     Toast.makeText(this, "Bin data accepted", Toast.LENGTH_SHORT).show();
+
+                }
                 }
             }
         }
     }
-}
