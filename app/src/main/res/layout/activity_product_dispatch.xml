@@ -11,7 +11,7 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginLeft="20dp"
-        android:backgroundTint="#ffc650"
+        android:backgroundTint="#ffe1e7"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -27,6 +27,7 @@
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/steel_beam"
             android:text="Material Scan"
+            android:textColor="#3f001c"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.562"
@@ -39,13 +40,12 @@
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginRight="20dp"
-        android:backgroundTint="#ffc650"
+        android:backgroundTint="#ffe1e7"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-
         app:layout_constraintStart_toEndOf="@+id/cardView2"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.234">
@@ -55,6 +55,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:textColor="#3f001c"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/binqr"
             android:text="Bin Scan"
@@ -72,7 +73,7 @@
         android:layout_height="72dp"
         android:layout_margin="4dp"
         android:hint="Enter Sales Order ID"
-        android:textColorHint="#000000"
+        android:textColorHint="#3f001c"
         app:boxBackgroundMode="none"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -88,6 +89,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_background"
             android:inputType="text"
+            android:backgroundTint="#ffe1e7"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 

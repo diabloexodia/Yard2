@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.Yard2" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#7d9874</item>
-        <item name="colorPrimaryVariant">#7d9874</item>
+        <item name="colorPrimary">#0069ac</item>
+        <item name="colorPrimaryVariant">#0069ac</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>

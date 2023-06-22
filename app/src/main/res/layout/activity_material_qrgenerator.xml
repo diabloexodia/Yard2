@@ -13,7 +13,7 @@
         android:layout_height="72dp"
         android:layout_margin="4dp"
         android:hint="Enter Product ID"
-        android:textColorHint="#000000"
+        android:textColorHint="#22005d"
         app:boxBackgroundMode="none"
         app:endIconMode="clear_text"
         android:layout_gravity="center"
@@ -25,6 +25,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/productid"
+            android:backgroundTint="#d4c3ff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_background"
@@ -52,7 +53,7 @@
         android:layout_height="72dp"
         android:layout_margin="4dp"
         android:hint="Enter Product Description"
-        android:textColorHint="#000000"
+        android:textColorHint="#22005d"
         app:boxBackgroundMode="none"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -64,6 +65,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/productdesc"
+            android:backgroundTint="#d4c3ff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_background"
@@ -77,7 +79,7 @@
         android:layout_height="72dp"
         android:layout_margin="4dp"
         android:hint="Enter Product Grade"
-        android:textColorHint="#000000"
+        android:textColorHint="#22005d"
         app:boxBackgroundMode="none"
         app:endIconMode="clear_text"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -89,6 +91,7 @@
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/productgrade"
+            android:backgroundTint="#d4c3ff"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/rounded_edittext_background"
