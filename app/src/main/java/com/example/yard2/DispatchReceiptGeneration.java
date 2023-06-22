@@ -14,6 +14,10 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -88,8 +92,37 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+
+                final String database_name = "rinl_yard";
+                final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
+                final String username = "admin", password = "admin123";
+                final String table_name = "Yard_Despatches";
+
+                new Thread(() -> {
+
+
+                    try {
+                        Class.forName("com.mysql.jdbc.Driver");
+                        Connection connection = DriverManager.getConnection(url, username, password);
+                        Statement statement = connection.createStatement();
+                        // Add to RDS DB with proper value for the foreign key:
+                        String insertQuery = "INSERT INTO " + table_name + " VALUES(?, ?, ?, ?, ?, ?)";
+                        PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+                        preparedStatement.setString(1, dispatchidtext.getText().toString());
+                        preparedStatement.setString(2, transporttypestring);
+                        preparedStatement.setString(3, datetext.getText().toString());
+                        preparedStatement.setString(4, salesorderidtext.getText().toString());
+                        preparedStatement.setString(5, quantitytext.getText().toString());
+                        preparedStatement.setString(6, remarkset.getText().toString());
+                        preparedStatement.execute();
+                        connection.close();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }).start();
+
                 Intent successdispatchpage = new Intent(DispatchReceiptGeneration.this, SuccessPageDispatch.class);
-                successdispatchpage.putExtra("Product ID", productidtext.getText().toString());
+                successdispatchpage.putExtra("Dispatch ID", dispatchidtext.getText().toString());
                 successdispatchpage.putExtra("Quantity", quantitytext.getText().toString());
                 successdispatchpage.putExtra("Sales ID", salesorderidtext.getText().toString());
                 successdispatchpage.putExtra("Date", datetext.getText().toString());
