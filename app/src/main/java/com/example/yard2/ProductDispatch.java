@@ -16,62 +16,55 @@ import com.google.zxing.integration.android.IntentResult;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.util.Random;
 
-public class ProductDispatch extends AppCompatActivity
-{
-    Button binScanner, materialScanner,generate;
+public class ProductDispatch extends AppCompatActivity {
+    Button binScanner, materialScanner, generate;
     EditText sales_order_id;
-    String qrText, product_id2, salesorderid,productID="";
-    double quantity=-1.0;
-    int bin_number2=-1;
+    String qrText, product_id2, salesorderid, productID = "";
+    double quantity = -1.0;
+    int bin_number2 = -1;
+
     @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState)
-    {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_dispatch);
-        binScanner=findViewById(R.id.binScan2);
-        materialScanner=findViewById(R.id.materialScan2);
-        sales_order_id=findViewById(R.id.soiEditText);
-        generate=findViewById(R.id.generateReceipt2);
+        binScanner = findViewById(R.id.binScan2);
+        materialScanner = findViewById(R.id.materialScan2);
+        sales_order_id = findViewById(R.id.soiEditText);
+        generate = findViewById(R.id.generateReceipt2);
 
-        binScanner.setOnClickListener(new View.OnClickListener()
-        {
+        binScanner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 startQRcodeScanning("Scan the Bin QR code");
             }
         });
 
-        materialScanner.setOnClickListener(new View.OnClickListener()
-        {
+        materialScanner.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
+            public void onClick(View v) {
                 startQRcodeScanning("Scan the Bin QR code");
             }
         });
 
-        generate.setOnClickListener(new View.OnClickListener()
-        {
+        generate.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v)
-            {
-                salesorderid=sales_order_id.getText().toString();
+            public void onClick(View v) {
+                salesorderid = sales_order_id.getText().toString();
 
-                final String database_name="rinl_yard";
-                final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
-                final String username="admin",password="admin123";
-                final String table_name="Product_Master";
+                final String database_name = "rinl_yard";
+                final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
+                final String username = "admin", password = "admin123";
+                final String table_name = "Product_Master";
 
-                if(productID.isEmpty() && bin_number2==-1)
-                {
+                if (productID.isEmpty() && bin_number2 == -1) {
                     Toast.makeText(ProductDispatch.this, "Scan the material or bin first", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     new Thread(() -> {
                         try {
                             Class.forName("com.mysql.jdbc.Driver");
@@ -93,10 +86,6 @@ public class ProductDispatch extends AppCompatActivity
                                     quantity = resultSet.getDouble("Stock_In_Tons");
                                 }
                             }
-
-                            // Retrieve the Product_Id value from the ResultSet
-
-
                             //connection.close();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -104,58 +93,53 @@ public class ProductDispatch extends AppCompatActivity
                     }).start();
                 }
 
+                // Sales order ID will already be there(input manually) in the sales _Order table , add remarks and date into the sales_order table
+                //add that code below then take to next page
 
-                if(quantity!=-1.0 && !productID.isEmpty()){
-                                    Intent receiptgenpage=new Intent(ProductDispatch.this,DispatchReceiptGeneration.class);
-                receiptgenpage.putExtra("productid",productID);
-                receiptgenpage.putExtra("salesorderid",salesorderid);
-                receiptgenpage.putExtra("Quantity",quantity);
-                startActivity(receiptgenpage);
-                }
-                else {
-                    Toast.makeText(ProductDispatch.this, "Please Wait !", Toast.LENGTH_SHORT).show();
+                if (quantity != -1.0 && !productID.isEmpty()) {
+                    Intent receiptgenpage = new Intent(ProductDispatch.this, DispatchReceiptGeneration.class);
+                    receiptgenpage.putExtra("productid", productID);
+                    receiptgenpage.putExtra("salesorderid", salesorderid);
+                    receiptgenpage.putExtra("Quantity", quantity);
+                    startActivity(receiptgenpage);
+                } else {
+                    String [] waitingMessage={"Please wait" , "Generating", "Still Generating"};
+                    Toast.makeText(ProductDispatch.this, waitingMessage[new Random().nextInt(waitingMessage.length)], Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
     }
-    private void startQRcodeScanning(String displayText)
-    {
-        IntentIntegrator integrator=new IntentIntegrator(this);
+
+    private void startQRcodeScanning(String displayText) {
+        IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setPrompt(displayText);
         integrator.setOrientationLocked(false);
         integrator.setCaptureActivity(CaptureActivityPortrait.class);
         integrator.initiateScan();
     }
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data)
-    {
+
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null)
-        {
-            if (result.getContents() == null)
-            {
+        if (result != null) {
+            if (result.getContents() == null) {
                 Toast.makeText(this, "Scanning cancelled", Toast.LENGTH_SHORT).show();
-            }
-            else
-            {
+            } else {
                 qrText = result.getContents();
                 String[] qrValues = qrText.split(",");
 
-                if (qrValues.length == 3)
-                {
+                if (qrValues.length == 3) {
                     product_id2 = qrValues[0].trim();
                     Toast.makeText(this, "Material data accepted", Toast.LENGTH_SHORT).show();
-                    productID=product_id2;
+                    productID = product_id2;
 
-                }
-                else
-                {
-                    bin_number2=Integer.valueOf(qrText);
+                } else {
+                    bin_number2 = Integer.valueOf(qrText);
                     Toast.makeText(this, "Bin data accepted", Toast.LENGTH_SHORT).show();
 
-                }
                 }
             }
         }
     }
+}

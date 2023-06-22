@@ -98,6 +98,9 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
                 final String username = "admin", password = "admin123";
                 final String table_name = "Yard_Despatches";
 
+
+                // make sure the foreign key is already present in the sales_order table as primary key.
+                // Do not modify the below code. Just make sure the foreign keys are already there in Sales_Order
                 new Thread(() -> {
 
 
@@ -121,6 +124,8 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
                     }
                 }).start();
 
+
+                // Success Page
                 Intent successdispatchpage = new Intent(DispatchReceiptGeneration.this, SuccessPageDispatch.class);
                 successdispatchpage.putExtra("Dispatch ID", dispatchidtext.getText().toString());
                 successdispatchpage.putExtra("Quantity", quantitytext.getText().toString());
