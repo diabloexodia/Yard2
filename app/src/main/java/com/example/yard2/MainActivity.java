@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
 {
-    Button productReceiveButton, qrgeneratorButton;
+    Button productReceiveButton, qrgeneratorButton, productDispatchButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity
 
         productReceiveButton=findViewById(R.id.productreceivingbutton);
         qrgeneratorButton=findViewById(R.id.qrbutton);
+        productDispatchButton=findViewById(R.id.productdispatchbutton);
 
         productReceiveButton.setOnClickListener(new View.OnClickListener()
         {
@@ -40,6 +41,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        productDispatchButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent productdispatchpage=new Intent(MainActivity.this, ProductDispatch.class);
+                startActivity(productdispatchpage);
+            }
+        });
 
     }
 }
