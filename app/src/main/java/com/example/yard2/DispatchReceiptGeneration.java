@@ -61,7 +61,7 @@ public class DispatchReceiptGeneration extends AppCompatActivity
 
         productidtext.setText(currentIntent.getStringExtra("productid"));
         salesorderidtext.setText(currentIntent.getStringExtra("salesorderid"));
-        quantitytext.setText(currentIntent.getIntExtra("quantity",-1));
+        quantitytext.setText(String.valueOf(currentIntent.getDoubleExtra("Quantity",-1)));
 
         remarksstring=remarkset.getText().toString();
 
