@@ -17,6 +17,7 @@ public class StatusPage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status_page);
+        getSupportActionBar().setTitle("View Status");
         productstatus=findViewById(R.id.productstatus);
         binstatus=findViewById(R.id.binstatus);
 
