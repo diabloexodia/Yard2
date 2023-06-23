@@ -6,5 +6,132 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".BinStatus">
+  <com.google.android.material.textfield.TextInputLayout
+      android:id="@+id/binnoTextInputLayout"
+      android:layout_width="329dp"
+      android:layout_height="72dp"
+      android:layout_margin="4dp"
+      android:hint="Enter Bin Number"
+      android:textColorHint="#3f001c"
+      app:boxBackgroundMode="none"
+      app:endIconMode="clear_text"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.059">
 
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/binnoEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_edittext_background"
+        android:backgroundTint="#ffe1e7"
+        android:inputType="text"
+        android:maxLines="1" />
+  </com.google.android.material.textfield.TextInputLayout>
+
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/go2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:background="@drawable/rounded_edittext_background"
+      android:text="Go"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.498"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_bias="0.212" />
+
+
+  <LinearLayout
+      android:id="@+id/l2"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="vertical"
+      android:visibility="invisible"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/binotext"
+          android:layout_width="wrap_content"
+          android:layout_height="match_parent"
+          android:layout_marginStart="30dp"
+          android:layout_marginEnd="85dp"
+          android:gravity="center_vertical"
+          android:text="Bin no"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp" />
+
+      <TextView
+          android:id="@+id/binno"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp"
+          android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="35dp"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/bindesctext"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="30dp"
+          android:layout_marginEnd="30dp"
+          android:gravity="center_vertical"
+          android:text="Bin \nDescription"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp" />
+
+      <TextView
+          android:id="@+id/bindesc"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp"
+          android:layout_gravity="center_vertical"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+      <TextView
+          android:id="@+id/binloctext"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="30dp"
+          android:layout_marginEnd="61dp"
+          android:gravity="center_vertical"
+          android:text="Bin \nLocation"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp" />
+
+      <TextView
+          android:id="@+id/binloc"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textColor="?attr/colorOnSecondary"
+          android:textSize="25sp"
+          android:layout_gravity="center_vertical"/>
+    </LinearLayout>
+  </LinearLayout>
   </androidx.constraintlayout.widget.ConstraintLayout>
