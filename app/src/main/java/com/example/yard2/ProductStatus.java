@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -73,7 +74,7 @@ public class ProductStatus extends AppCompatActivity
                     }
                     catch (Exception e)
                     {
-                        e.printStackTrace();
+                        Toast.makeText(ProductStatus.this, "Database error", Toast.LENGTH_SHORT).show();
                     }
                 }).start();
                 pid.setText(productID.getText().toString());
