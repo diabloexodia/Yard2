@@ -10,7 +10,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="159dp"
         android:layout_height="159dp"
-        android:layout_marginLeft="15dp"
+        android:layout_marginStart="12dp"
         android:backgroundTint="#d4c3ff"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -41,7 +41,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="159dp"
         android:layout_height="159dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginEnd="22dp"
         android:backgroundTint="#b2fff5"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
@@ -73,13 +73,13 @@
     <androidx.cardview.widget.CardView
         android:layout_width="159dp"
         android:layout_height="159dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginStart="12dp"
         android:backgroundTint="#ffe1e7"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.067"
+        app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.606">
@@ -91,8 +91,8 @@
             android:layout_gravity="center"
             android:background="@android:color/transparent"
             android:drawableTop="@drawable/pd"
-            android:textColor="#3f001c"
             android:text="Product dispatch"
+            android:textColor="#3f001c"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"
@@ -104,7 +104,7 @@
     <androidx.cardview.widget.CardView
         android:layout_width="159dp"
         android:layout_height="159dp"
-        android:layout_marginRight="15dp"
+        android:layout_marginEnd="22dp"
         android:backgroundTint="#ffe3ce"
         app:cardCornerRadius="20dp"
         app:cardElevation="10dp"
