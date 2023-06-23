@@ -74,12 +74,12 @@ public class ProductStatus extends AppCompatActivity
                     }
                     catch (Exception e)
                     {
-                        Toast.makeText(ProductStatus.this, "Database error", Toast.LENGTH_SHORT).show();
+                       // Toast.makeText(ProductStatus.this, "Database error", Toast.LENGTH_SHORT).show();
                     }
                 }).start();
                 pid.setText(productID.getText().toString());
                 pdesc.setText(proddesc);
-                pquantity.setText(Double.toString(prodquan));
+                pquantity.setText(String.valueOf(prodquan));
                 if (binno==-1)
                     currentstatus.setText("Dispatched");
                 else
