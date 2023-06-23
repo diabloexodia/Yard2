@@ -40,7 +40,7 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
         productidtext = findViewById(R.id.productIdEditText2);
         salesorderidtext = findViewById(R.id.salesOrderEditText);
         quantitytext = findViewById(R.id.QuantityEdittext2);
-        remarkset = findViewById(R.id.RemarksEditText2);
+        remarkset = findViewById(R.id.salesOrderRemarks);
         transporttypespin = findViewById(R.id.transportTypeSpinner2);
         submitbutton = findViewById(R.id.ReceiptGenerationSubmitButton2);
 

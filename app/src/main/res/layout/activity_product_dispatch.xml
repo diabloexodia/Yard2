@@ -112,7 +112,7 @@
         app:layout_constraintVertical_bias="0.75">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/RemarksEditText2"
+            android:id="@+id/salesOrderRemarks"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:inputType="textMultiLine"
