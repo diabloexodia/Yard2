@@ -9,7 +9,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity
 {
-    Button productReceiveButton, qrgeneratorButton, productDispatchButton;
+    Button productReceiveButton, qrgeneratorButton, productDispatchButton, statusButton;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity
         productReceiveButton=findViewById(R.id.productreceivingbutton);
         qrgeneratorButton=findViewById(R.id.qrbutton);
         productDispatchButton=findViewById(R.id.productdispatchbutton);
+        statusButton=findViewById(R.id.statusbutton);
 
         productReceiveButton.setOnClickListener(new View.OnClickListener()
         {
@@ -51,5 +52,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        statusButton.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Intent statuspage=new Intent(MainActivity.this, StatusPage.class);
+                startActivity(statuspage);
+            }
+        });
     }
 }
