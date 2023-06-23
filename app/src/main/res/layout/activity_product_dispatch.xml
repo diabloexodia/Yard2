@@ -93,6 +93,34 @@
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/remarkTextInputLayout"
+        android:layout_width="329dp"
+        android:layout_height="125dp"
+        android:layout_margin="4dp"
+        android:hint="Enter your remarks"
+        app:counterEnabled="true"
+        app:counterMaxLength="200"
+        android:textColorHint="#3f001c"
+        app:boxBackgroundMode="none"
+        app:endIconMode="clear_text"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.67"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/RemarksEditText2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="textMultiLine"
+            android:scrollbars="vertical"
+            android:background="@drawable/rounded_edittext_background"
+            android:backgroundTint="#ffe1e7" />
+    </com.google.android.material.textfield.TextInputLayout>
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/generateReceipt2"
         android:layout_width="wrap_content"
