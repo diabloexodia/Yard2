@@ -19,11 +19,13 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 public class ProductDispatch extends AppCompatActivity {
     Button binScanner, materialScanner, generate;
-    EditText sales_order_id;
+    EditText sales_order_id,salesOrderRemarks;
     String qrText, product_id2, salesorderid, productID = "";
     double quantity = -1.0;
     int bin_number2 = -1;
@@ -37,7 +39,13 @@ public class ProductDispatch extends AppCompatActivity {
         materialScanner = findViewById(R.id.materialScan2);
         sales_order_id = findViewById(R.id.soiEditText);
         generate = findViewById(R.id.generateReceipt2);
+        salesOrderRemarks=findViewById(R.id.salesOrderRemarks);
 
+        // -----------Date-----------------------------------------------------
+        Date currentDate = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        // -----------Date------------------------------------------------------
         binScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -96,7 +104,32 @@ public class ProductDispatch extends AppCompatActivity {
                 // Sales order ID will already be there(input manually) in the sales _Order table , add remarks and date into the sales_order table
                 //add that code below then take to next page
 
+
+
                 if (quantity != -1.0 && !productID.isEmpty()) {
+
+
+                    final String table_name3 = "Sales_Order";
+
+                    new Thread(() -> {
+
+
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(url, username, password);
+                            Statement statement = connection.createStatement();
+                            String updateQuery = "UPDATE " + table_name3 + " SET Sales_Order_Date = ?, Product_Id = ?, Sales_Order_Qty_in_Tons = ?, Remarks = ? WHERE Sales_Order_Id = "+salesorderid;
+                            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                            preparedStatement.setString(1,dateFormat.format(currentDate) );
+                            preparedStatement.setString(2, productID);
+                            preparedStatement.setString(3, String.valueOf(quantity));
+                            preparedStatement.setString(4, salesOrderRemarks.getText().toString());
+                            preparedStatement.execute();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }).start();
+
                     Intent receiptgenpage = new Intent(ProductDispatch.this, DispatchReceiptGeneration.class);
                     receiptgenpage.putExtra("productid", productID);
                     receiptgenpage.putExtra("salesorderid", salesorderid);
