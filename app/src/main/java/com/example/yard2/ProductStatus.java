@@ -85,9 +85,9 @@ public class ProductStatus extends AppCompatActivity
                 else
                 {
                     currentstatus.setText("In Yard");
-                    pbin.setText(Integer.toString(binno));
+                    pbin.setText(String.valueOf(binno));
                 }
-                pbin.setText(Integer.toString(binno));
+                pbin.setText(String.valueOf(binno));
                 pgrade.setText(prodgrad);
             }
         });
