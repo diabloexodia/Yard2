@@ -8,24 +8,32 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class SuccessPageDispatch extends AppCompatActivity
 {
-    TextView dispatchIdTextView,salesIdTextView,dispathDateTextView,dispatchQuantityTextView,dispatchTransportTextView,dispatchRemarksTextView;
+    TextView dispatchIdTextView2,salesIdTextView,dispathDateTextView,dispatchQuantityTextView,dispatchTransportTextView,dispatchRemarksTextView;
     Button confirm;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState)
-    {
-        dispatchIdTextView = findViewById(R.id.dispatchIdTextView);
-        salesIdTextView = findViewById(R.id.salesIdTextView);
-        dispathDateTextView = findViewById(R.id.dispathDateTextView);
-        dispatchQuantityTextView = findViewById(R.id.dispatchQuantityTextView);
-        dispatchTransportTextView = findViewById(R.id.dispatchTransportTextView);
-        dispatchRemarksTextView = findViewById(R.id.dispatchRemarksTextView);
+    {           super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_success_page_dispatch);
+
+
+        dispatchIdTextView2 = findViewById(R.id.dispatchsuccessTextView);
+        salesIdTextView = findViewById(R.id.dispatchSuccessSalesIDText);
+        dispathDateTextView = findViewById(R.id.dispatchsuccessDateText);
+        dispatchQuantityTextView = findViewById(R.id.dispatchsuccessQuantity);
+        dispatchTransportTextView = findViewById(R.id.dispatchSuccessTransport);
+        dispatchRemarksTextView = findViewById(R.id.dispatchSuccessRemarks);
+        confirm=findViewById(R.id.buttonDispatchConfirm);
+
+        //Toast.makeText(this, getIntent().getStringExtra("Dispatch ID"), Toast.LENGTH_SHORT).show();
 
         Intent dispatchSuccessIntent=getIntent();
-        dispatchIdTextView.setText(dispatchSuccessIntent.getStringExtra("Dispatch ID"));
+        dispatchIdTextView2.setText(dispatchSuccessIntent.getStringExtra("Dispatch ID"));
+
         salesIdTextView.setText(dispatchSuccessIntent.getStringExtra("Sales ID"));
         dispathDateTextView.setText(dispatchSuccessIntent.getStringExtra("Date"));
         dispatchQuantityTextView.setText(dispatchSuccessIntent.getStringExtra("Quantity"));
@@ -35,11 +43,14 @@ public class SuccessPageDispatch extends AppCompatActivity
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent successMain=new Intent(getApplicationContext(), MainActivity.class);
+
+              //  clears the activity stack
+                successMain.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(successMain);
                 finish();
             }
         });
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_success_page_dispatch);
 
 
     }

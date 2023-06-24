@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Objects;
+
 public class StatusPage extends AppCompatActivity
 {
     Button productstatus, binstatus;
@@ -17,7 +19,7 @@ public class StatusPage extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_status_page);
-        getSupportActionBar().setTitle("View Status");
+        Objects.requireNonNull(getSupportActionBar()).setTitle("View Status");
         productstatus=findViewById(R.id.productstatus);
         binstatus=findViewById(R.id.binstatus);
 

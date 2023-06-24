@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.Objects;
+
 public class ReceiptSuccessPage extends AppCompatActivity {
 
 
@@ -19,7 +21,7 @@ public class ReceiptSuccessPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_success_page);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide();
         receiptIdTextView=findViewById(R.id.receiptTextView);
         productIdTextView=findViewById(R.id.productidTextView);
         remarksTextView=findViewById(R.id.remarksTextView);
@@ -40,6 +42,8 @@ public class ReceiptSuccessPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent3=new Intent(getApplicationContext(),MainActivity.class);
+              //  intent3.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                startActivity(intent3);
                 finish();
             }
         });

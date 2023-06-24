@@ -7,7 +7,7 @@
     tools:context=".SuccessPageDispatch">
 
     <TextView
-        android:id="@+id/dispatchRemarksTextView"
+        android:id="@+id/dispatchSuccessRemarks"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"
@@ -50,7 +50,7 @@
         app:layout_constraintVertical_bias="0.39" />
 
     <TextView
-        android:id="@+id/dispatchTransportTextView"
+        android:id="@+id/dispatchSuccessTransport"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"
@@ -63,7 +63,7 @@
         app:layout_constraintVertical_bias="0.771" />
 
     <TextView
-        android:id="@+id/dispatchIdTextView"
+        android:id="@+id/dispatchsuccessTextView"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"
@@ -74,7 +74,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/salesIdTextView"
+        android:id="@+id/dispatchSuccessSalesIDText"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"
@@ -87,7 +87,7 @@
         app:layout_constraintVertical_bias="0.568" />
 
     <TextView
-        android:id="@+id/dispathDateTextView"
+        android:id="@+id/dispatchsuccessDateText"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"
@@ -100,7 +100,7 @@
         app:layout_constraintVertical_bias="0.634" />
 
     <TextView
-        android:id="@+id/dispatchQuantityTextView"
+        android:id="@+id/dispatchsuccessQuantity"
         android:layout_width="300dp"
         android:layout_height="34dp"
         android:textAlignment="center"

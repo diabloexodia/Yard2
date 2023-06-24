@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -34,7 +35,6 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dispatch_receipt_generation);
         getSupportActionBar().setTitle("Generate Dispatch Receipt");
-
         dispatchidtext = findViewById(R.id.dispatchIdEditText);
         datetext = findViewById(R.id.dateEdittext2);
         productidtext = findViewById(R.id.productIdEditText2);
@@ -125,15 +125,16 @@ public class DispatchReceiptGeneration extends AppCompatActivity {
                 }).start();
 
 
-                // Success Page
-                Intent successdispatchpage = new Intent(DispatchReceiptGeneration.this, SuccessPageDispatch.class);
+//                // Success Page
+                Intent successdispatchpage = new Intent(getApplicationContext(), SuccessPageDispatch.class);
+               Toast.makeText(DispatchReceiptGeneration.this, dispatchidtext.getText().toString(), Toast.LENGTH_SHORT).show();
                 successdispatchpage.putExtra("Dispatch ID", dispatchidtext.getText().toString());
                 successdispatchpage.putExtra("Quantity", quantitytext.getText().toString());
                 successdispatchpage.putExtra("Sales ID", salesorderidtext.getText().toString());
                 successdispatchpage.putExtra("Date", datetext.getText().toString());
                 successdispatchpage.putExtra("Remarks", remarkset.getText().toString());
                 successdispatchpage.putExtra("Transport", transporttypestring);
-                startActivity(successdispatchpage);
+         startActivity(successdispatchpage);
             }
         });
     }
