@@ -140,7 +140,7 @@ public class BinStatus extends AppCompatActivity
                             bar.setVisibility(View.GONE);
                             if (finalHasProduct)
                             {
-                                binstatus.setText("Bin contains a product");
+                                binstatus.setText("Bin occupied");
                             }
                             else
                             {
