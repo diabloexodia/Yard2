@@ -59,9 +59,6 @@ public class BinQRGenerator extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-//                if(inputText.getText().toString().isEmpty())
-//                    Toast.makeText(BinQRGenerator.this, "Please enter Bin number first", Toast.LENGTH_SHORT).show();
-//                else
                 if(validateInput())
                 {
                     frameLayout.setVisibility(View.VISIBLE);

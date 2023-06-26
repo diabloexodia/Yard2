@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -38,6 +39,7 @@ public class MaterialQRGenerator extends AppCompatActivity
     Bitmap qrCodeBitmap;
     ProgressBar progressBar;
     FrameLayout frameLayout;
+    TextInputLayout productidtil, productdesctil, productgradetil;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -55,16 +57,23 @@ public class MaterialQRGenerator extends AppCompatActivity
         progressBar = findViewById(R.id.loadingProgressBarmat);
         frameLayout = findViewById(R.id.framelayout2);
 
+        productidtil=findViewById(R.id.productidnoTextInputLayout);
+        productdesctil=findViewById(R.id.productdescTextInputLayout);
+        productgradetil=findViewById(R.id.productgradeTextInputLayout);
+
         generate.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                frameLayout.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
-                qr.setImageBitmap(null);
-                String inputString=productid.getText().toString()+","+productdesc.getText().toString()+","+productgrade.getText().toString();
-                generateQRCodeAsync(inputString);
+                if(validateInputs())
+                {
+                    frameLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    qr.setImageBitmap(null);
+                    String inputString = productid.getText().toString() + "," + productdesc.getText().toString() + "," + productgrade.getText().toString();
+                    generateQRCodeAsync(inputString);
+                }
             }
         });
 
@@ -143,7 +152,6 @@ public class MaterialQRGenerator extends AppCompatActivity
         }
         catch (Exception e)
         {
-            Toast.makeText(this, "Error generating the QR pdf", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
@@ -177,5 +185,38 @@ public class MaterialQRGenerator extends AppCompatActivity
         {
             Toast.makeText(this, "PDF file not generated", Toast.LENGTH_SHORT).show();
         }
+    }
+    private boolean validateInputs()
+    {
+        String pidval=productid.getText().toString();
+        String producdescval=productdesc.getText().toString();
+        String productgradval=productgrade.getText().toString();
+        boolean isValid=true;
+        if(pidval.isEmpty() || pidval.length()>6 || !checkForSpecialCharacters(pidval))
+        {
+            productidtil.setError("Invalid Product ID");
+            Toast.makeText(this, "Invalid Product ID", Toast.LENGTH_SHORT).show();
+            isValid=false;
+        }
+        if(producdescval.isEmpty() || producdescval.length()>40 || !checkForSpecialCharacters(producdescval))
+        {
+            productdesctil.setError("Invalid product description");
+            Toast.makeText(this, "Invalid Product Description", Toast.LENGTH_SHORT).show();
+            isValid=false;
+        }
+        if(productgradval.length()>10 || !checkForSpecialCharacters(productgradval))
+        {
+            productgradetil.setError("Invalid Product grade");
+            Toast.makeText(this, "Invalid Product Grade", Toast.LENGTH_SHORT).show();
+            isValid=false;
+        }
+        return isValid;
+    }
+    private boolean checkForSpecialCharacters(String val)
+    {
+        for(int x=0;x<val.length();x++)
+            if(!Character.isLetterOrDigit(val.charAt(x)))
+                return false;
+        return true;
     }
 }
