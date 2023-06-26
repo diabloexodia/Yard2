@@ -27,10 +27,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="15dp"
+                android:layout_marginBottom="2dp"
                 android:backgroundTint="#d4c3ff"
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp"
-                android:layout_marginEnd="10dp">
+                android:layout_marginEnd="10dp"
+                android:layout_marginTop="2dp">
 
                 <Button
                     android:id="@+id/qrbutton"
@@ -51,7 +53,9 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp"
                 android:layout_marginStart="10dp"
-                android:layout_marginEnd="15dp">
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp">
 
                 <Button
                     android:id="@+id/productreceivingbutton"
@@ -80,7 +84,9 @@
                 android:layout_marginStart="15dp"
                 android:backgroundTint="#ffe1e7"
                 app:cardCornerRadius="20dp"
-                app:cardElevation="10dp">
+                app:cardElevation="10dp"
+                android:layout_marginTop="2dp"
+                android:layout_marginBottom="2dp">
 
                 <Button
                     android:id="@+id/productdispatchbutton"
@@ -101,7 +107,9 @@
                 app:cardCornerRadius="20dp"
                 app:cardElevation="10dp"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="15dp">
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp">
 
                 <Button
                     android:id="@+id/statusbutton"
