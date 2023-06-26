@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -51,9 +52,16 @@ public class BinStatus extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                binnoval = Integer.parseInt(binno.getText().toString());
-                bar.setVisibility(View.VISIBLE);
-                fetchDataFromDatabase();
+                if(binno.getText().toString().isEmpty())
+                {
+                    Toast.makeText(BinStatus.this, "Invalid bin number", Toast.LENGTH_SHORT).show();
+                }
+                else
+                {
+                    binnoval = Integer.parseInt(binno.getText().toString());
+                    bar.setVisibility(View.VISIBLE);
+                    fetchDataFromDatabase();
+                }
             }
         });
     }

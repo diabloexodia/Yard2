@@ -52,8 +52,13 @@ public class ProductStatus extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                progressBar.setVisibility(View.VISIBLE);
-                fetchDataFromDatabase();
+                if(productID.getText().toString().isEmpty())
+                    Toast.makeText(ProductStatus.this, "Invalid Product ID", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    progressBar.setVisibility(View.VISIBLE);
+                    fetchDataFromDatabase();
+                }
             }
         });
     }
