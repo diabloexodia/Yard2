@@ -12,6 +12,8 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -28,6 +30,7 @@ public class ReceiptGeneration extends AppCompatActivity {
     Button sumbitButton;
     Spinner transportTypeSpinner;
     private String transportTextView;
+    TextInputLayout textInputLayout;
 
     public static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder();
@@ -47,6 +50,8 @@ public class ReceiptGeneration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_receipt_generation);
         Objects.requireNonNull(getSupportActionBar()).setTitle("Generate Receipt");
+
+        textInputLayout=findViewById(R.id.feedbacktil);
 
         Intent intent = getIntent();
         quantityTextView = findViewById(R.id.QuantityEdittext);
@@ -90,10 +95,12 @@ public class ReceiptGeneration extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                if (quantityTextView.getText().toString().equals("-1") || remarksEditText.getText().toString().equals(" "))
-                    Toast.makeText(ReceiptGeneration.this, "Check Quantity or Remarks", Toast.LENGTH_SHORT).show();
+                if (remarksEditText.getText().toString().isEmpty() || remarksEditText.getText().toString().length()>60)
+                {
+                    textInputLayout.setError("Invalid remark");
+                    Toast.makeText(ReceiptGeneration.this, "Invalid Remarks", Toast.LENGTH_SHORT).show();
+                }
                 else {
-
 
                     final String database_name = "rinl_yard";
                     final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
@@ -101,7 +108,6 @@ public class ReceiptGeneration extends AppCompatActivity {
                     final String table_name = "Yard_Receipts";
 
                     new Thread(() -> {
-
 
                         try {
                             Class.forName("com.mysql.jdbc.Driver");
@@ -123,7 +129,6 @@ public class ReceiptGeneration extends AppCompatActivity {
                         }
                     }).start();
 
-
                     Intent intent2 = new Intent(ReceiptGeneration.this, ReceiptSuccessPage.class);
                     intent2.putExtra("Product ID", productIdTextView.getText().toString());
                     intent2.putExtra("Quantity", quantityTextView.getText().toString());
@@ -137,6 +142,4 @@ public class ReceiptGeneration extends AppCompatActivity {
         });
 
     }
-
-
 }
