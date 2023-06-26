@@ -2,7 +2,6 @@ package com.example.yard2;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,8 +10,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
+
 
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
@@ -21,7 +23,6 @@ import com.google.zxing.qrcode.QRCodeWriter;
 import com.itextpdf.io.image.ImageDataFactory;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfWriter;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -33,56 +34,90 @@ public class BinQRGenerator extends AppCompatActivity
     EditText inputText;
     Button generatebutton, savepdfbutton;
     Bitmap qrCodeBitmap;
+    ProgressBar progressBar;
+    FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_binqrgenerator);
         getSupportActionBar().setTitle("Generate Bin QR Code");
-        qrcode=findViewById(R.id.qrgenerator);
-        inputText=findViewById(R.id.inputText);
-        generatebutton=findViewById(R.id.generatebutton);
-        savepdfbutton=findViewById(R.id.savepdfbutton2);
+
+        qrcode = findViewById(R.id.qrgenerator);
+        inputText = findViewById(R.id.inputText);
+        generatebutton = findViewById(R.id.generatebutton);
+        savepdfbutton = findViewById(R.id.savepdfbutton2);
+        progressBar = findViewById(R.id.loadingProgressBar);
+        frameLayout = findViewById(R.id.framelayout);
+
         generatebutton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                String inputString=inputText.getText().toString();
-                qrCodeBitmap=generateQRCode(inputString);
-                qrcode.setImageBitmap(qrCodeBitmap);
+                frameLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                qrcode.setImageBitmap(null);
+                generateQRCodeAsync(inputText.getText().toString());
             }
         });
+
         savepdfbutton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                File pdfFile=convertBitmapToPdf(qrCodeBitmap,inputText.getText().toString());
+                File pdfFile = convertBitmapToPdf(qrCodeBitmap, inputText.getText().toString());
                 printPdf(pdfFile);
             }
         });
     }
+
+    private void generateQRCodeAsync(final String inputString)
+    {
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                qrCodeBitmap = generateQRCode(inputString);
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        progressBar.setVisibility(View.GONE);
+                        if (qrCodeBitmap != null)
+                            qrcode.setImageBitmap(qrCodeBitmap);
+                        else
+                            Toast.makeText(BinQRGenerator.this, "Error generating QR code", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
+    }
+
     private Bitmap generateQRCode(String inputString)
     {
-        QRCodeWriter qrCodeWriter=new QRCodeWriter();
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try
         {
-            BitMatrix bitMatrix=qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 1200,1200);
-            int width= bitMatrix.getWidth();
-            int height= bitMatrix.getHeight();
-            Bitmap qrCodeBitmap=Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
-            for(int x=0;x<width;x++)
-                for(int y=0;y<height;y++)
+            BitMatrix bitMatrix = qrCodeWriter.encode(inputString, BarcodeFormat.QR_CODE, 1200, 1200);
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+            Bitmap qrCodeBitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++)
+                for (int y = 0; y < height; y++)
                     qrCodeBitmap.setPixel(x, y, bitMatrix.get(x, y) ? getResources().getColor(android.R.color.black) : getResources().getColor(android.R.color.white));
             return qrCodeBitmap;
         }
-        catch(WriterException e)
+        catch (WriterException e)
         {
-            Toast.makeText(this, "Error generating QR code", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
+
     private File convertBitmapToPdf(Bitmap qrCodeBitmap, String filename)
     {
         try
@@ -105,16 +140,17 @@ public class BinQRGenerator extends AppCompatActivity
         }
         catch (Exception e)
         {
-            Toast.makeText(this, "Error generating the QR pdf", Toast.LENGTH_SHORT).show();
             return null;
         }
     }
+
     private byte[] bitmapToByteArray(Bitmap bitmap)
     {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
         return outputStream.toByteArray();
     }
+
     private void printPdf(File pdfFile)
     {
         if (pdfFile != null)
