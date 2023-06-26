@@ -215,7 +215,7 @@ public class MaterialQRGenerator extends AppCompatActivity
     private boolean checkForSpecialCharacters(String val)
     {
         for(int x=0;x<val.length();x++)
-            if(!Character.isLetterOrDigit(val.charAt(x)))
+            if(!(Character.isLetterOrDigit(val.charAt(x)) || Character.isWhitespace(val.charAt(x))))
                 return false;
         return true;
     }

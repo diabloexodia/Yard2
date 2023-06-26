@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -27,6 +28,7 @@ public class ProductReceive extends AppCompatActivity
     int quantity;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
+    TextInputLayout quantitytil;
 
     @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
@@ -40,6 +42,7 @@ public class ProductReceive extends AppCompatActivity
         binScanbutton=findViewById(R.id.binScan);
         generateReceipt=findViewById(R.id.generateReceipt);
         quantityEdittext= findViewById(R.id.qtyEditText);
+        quantitytil=findViewById(R.id.quantityTextInputLayout);
 
         product_id="";
         product_grade="";
@@ -70,7 +73,10 @@ public class ProductReceive extends AppCompatActivity
             public void onClick(View view)
             {
                 if(quantityEdittext==null)
+                {
+                    quantitytil.setError("Quantity is needed");
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
+                }
                 else if(product_id.equals(""))
                     Toast.makeText(ProductReceive.this, "Please scan the Material QR Code", Toast.LENGTH_SHORT).show();
                 else if(bin_number=="")
