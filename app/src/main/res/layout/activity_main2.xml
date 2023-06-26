@@ -44,7 +44,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
-                android:layout_width="wrap_content"
+                android:layout_width="177dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:backgroundTint="#b2fff5"
@@ -74,7 +74,7 @@
             android:layout_marginTop="10dp">
 
             <androidx.cardview.widget.CardView
-                android:layout_width="0dp"
+                android:layout_width="10dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:layout_marginStart="15dp"
