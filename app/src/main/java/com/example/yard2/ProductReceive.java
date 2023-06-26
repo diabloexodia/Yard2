@@ -23,7 +23,8 @@ public class ProductReceive extends AppCompatActivity
 {
     String qrText;
     String product_id,product_grade,product_description;
-    static int bin_number,quantity;
+     String bin_number;
+    int quantity;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
 
@@ -44,6 +45,7 @@ public class ProductReceive extends AppCompatActivity
         product_grade="";
         product_description="";
         qrText="";
+        bin_number="";
 
         materialScanButton.setOnClickListener(new View.OnClickListener()
         {
@@ -71,6 +73,10 @@ public class ProductReceive extends AppCompatActivity
 
                 if(quantityEdittext==null)
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
+                else if(product_id.equals(""))
+                    Toast.makeText(ProductReceive.this, "Please scan the Material QR Code", Toast.LENGTH_SHORT).show();
+                else if(bin_number=="")
+                    Toast.makeText(ProductReceive.this, "Please scan Bin QR Code", Toast.LENGTH_SHORT).show();
                 else
                 {
                     quantity=Integer.parseInt(quantityEdittext.getText().toString());
@@ -90,12 +96,13 @@ public class ProductReceive extends AppCompatActivity
                              //connection.close();
                              } catch (Exception e) {e.printStackTrace();}
                     }).start();
+                    Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
+                    intent.putExtra("Quantity",quantity);
+                    intent.putExtra("Product ID",product_id);
+                    startActivity(intent);
                 }
 
-                Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
-                intent.putExtra("Quantity",quantity);
-                intent.putExtra("Product ID",product_id);
-                startActivity(intent);
+
             }
         });
     }
@@ -131,7 +138,7 @@ public class ProductReceive extends AppCompatActivity
                 }
                 else
                 {
-                    bin_number=Integer.valueOf(qrText);
+                    bin_number=qrText;
                     Toast.makeText(this, "Bin data accepted", Toast.LENGTH_SHORT).show();
                 }
             }
