@@ -12,7 +12,9 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.zxing.BarcodeFormat;
@@ -34,6 +36,8 @@ public class MaterialQRGenerator extends AppCompatActivity
     Button generate, print;
     ImageView qr;
     Bitmap qrCodeBitmap;
+    ProgressBar progressBar;
+    FrameLayout frameLayout;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -48,13 +52,19 @@ public class MaterialQRGenerator extends AppCompatActivity
         generate=findViewById(R.id.generatebuttonmat);
         print=findViewById(R.id.printbutton2);
         qr=findViewById(R.id.qrcode);
+        progressBar = findViewById(R.id.loadingProgressBarmat);
+        frameLayout = findViewById(R.id.framelayout2);
 
-        generate.setOnClickListener(new View.OnClickListener() {
+        generate.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
+                frameLayout.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.VISIBLE);
+                qr.setImageBitmap(null);
                 String inputString=productid.getText().toString()+","+productdesc.getText().toString()+","+productgrade.getText().toString();
-                qrCodeBitmap=generateQRCode(inputString);
-                qr.setImageBitmap(qrCodeBitmap);
+                generateQRCodeAsync(inputString);
             }
         });
 
@@ -67,6 +77,29 @@ public class MaterialQRGenerator extends AppCompatActivity
                 printPdf(pdfFile);
             }
         });
+    }
+    private void generateQRCodeAsync(final String inputString)
+    {
+        new Thread(new Runnable()
+        {
+            @Override
+            public void run()
+            {
+                qrCodeBitmap = generateQRCode(inputString);
+                runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        progressBar.setVisibility(View.GONE);
+                        if (qrCodeBitmap != null)
+                            qr.setImageBitmap(qrCodeBitmap);
+                        else
+                            Toast.makeText(MaterialQRGenerator.this, "Error generating QR code", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            }
+        }).start();
     }
     private Bitmap generateQRCode(String inputString)
     {

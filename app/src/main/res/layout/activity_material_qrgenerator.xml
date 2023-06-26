@@ -126,9 +126,11 @@
         app:layout_constraintVertical_bias="0.715" />
 
     <FrameLayout
+        android:id="@+id/framelayout2"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginTop="525dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -148,11 +150,11 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:layout_gravity="center_horizontal"
-            android:text="Waiting for Material details..."
+            android:text="Generating QR Code..."
             android:textSize="15sp"
             android:textColor="?attr/colorOnSecondary" />
         <ProgressBar
-            android:id="@+id/loadingProgressBar"
+            android:id="@+id/loadingProgressBarmat"
             android:layout_marginTop="25dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
