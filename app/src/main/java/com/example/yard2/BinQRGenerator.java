@@ -16,6 +16,7 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.WriterException;
 import com.google.zxing.common.BitMatrix;
@@ -36,6 +37,7 @@ public class BinQRGenerator extends AppCompatActivity
     Bitmap qrCodeBitmap;
     ProgressBar progressBar;
     FrameLayout frameLayout;
+    TextInputLayout textInputLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -50,15 +52,17 @@ public class BinQRGenerator extends AppCompatActivity
         savepdfbutton = findViewById(R.id.savepdfbutton2);
         progressBar = findViewById(R.id.loadingProgressBar);
         frameLayout = findViewById(R.id.framelayout);
+        textInputLayout=findViewById(R.id.binnoTextInputLayout);
 
         generatebutton.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                if(inputText.getText().toString().isEmpty())
-                    Toast.makeText(BinQRGenerator.this, "Please enter Bin number first", Toast.LENGTH_SHORT).show();
-                else
+//                if(inputText.getText().toString().isEmpty())
+//                    Toast.makeText(BinQRGenerator.this, "Please enter Bin number first", Toast.LENGTH_SHORT).show();
+//                else
+                if(validateInput())
                 {
                     frameLayout.setVisibility(View.VISIBLE);
                     progressBar.setVisibility(View.VISIBLE);
@@ -180,5 +184,36 @@ public class BinQRGenerator extends AppCompatActivity
         {
             Toast.makeText(this, "PDF file not generated", Toast.LENGTH_SHORT).show();
         }
+    }
+    private boolean validateInput()
+    {
+        boolean isValid=true;
+        String input=inputText.getText().toString();
+        if (input.isEmpty())
+        {
+            Toast.makeText(this, "Bin number is required", Toast.LENGTH_SHORT).show();
+            textInputLayout.setError("Bin number is required");
+            isValid = false;
+        }
+        else if(!checkForSpecialCharacters(input))
+        {
+            Toast.makeText(this, "Please enter Bin number in correct format", Toast.LENGTH_SHORT).show();
+            textInputLayout.setError("Please enter Bin number in correct format");
+            isValid = false;
+        }
+        else if(input.length()>6)
+        {
+            Toast.makeText(this, "Invalid size", Toast.LENGTH_SHORT).show();
+            textInputLayout.setError("Invalid size");
+            isValid=false;
+        }
+        return isValid;
+    }
+    private boolean checkForSpecialCharacters(String input)
+    {
+        for(int x=0;x<input.length();x++)
+            if(!Character.isLetterOrDigit(input.charAt(x)))
+                return false;
+        return true;
     }
 }

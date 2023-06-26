@@ -23,7 +23,7 @@ public class ProductReceive extends AppCompatActivity
 {
     String qrText;
     String product_id,product_grade,product_description;
-     String bin_number;
+    String bin_number;
     int quantity;
     Button materialScanButton,binScanbutton,generateReceipt;
     EditText quantityEdittext;
@@ -69,8 +69,6 @@ public class ProductReceive extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-            //    Toast.makeText(ProductReceive.this,quantityEdittext.getText().toString() , Toast.LENGTH_SHORT).show();
-
                 if(quantityEdittext==null)
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
                 else if(product_id.equals(""))
@@ -94,15 +92,15 @@ public class ProductReceive extends AppCompatActivity
 
                             statement.execute("INSERT INTO " + table_name + " VALUES('" + product_id + "', '" +product_description + "', '" +quantity+" ', ' "+bin_number +"', '" +product_grade + "')");
                              //connection.close();
-                             } catch (Exception e) {e.printStackTrace();}
+                             }
+                        catch (Exception e)
+                        {e.printStackTrace();}
                     }).start();
                     Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
                     intent.putExtra("Quantity",quantity);
                     intent.putExtra("Product ID",product_id);
                     startActivity(intent);
                 }
-
-
             }
         });
     }

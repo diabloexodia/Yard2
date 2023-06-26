@@ -53,6 +53,7 @@
         android:textColorHint="#22005d"
         app:boxBackgroundMode="none"
         app:endIconMode="clear_text"
+        app:errorEnabled="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.621"
