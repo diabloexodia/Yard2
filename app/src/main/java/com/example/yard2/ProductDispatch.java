@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.material.textfield.TextInputLayout;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -29,6 +30,7 @@ public class ProductDispatch extends AppCompatActivity {
     String qrText, product_id2, salesorderid, productID = "";
     double quantity = -1.0;
     int bin_number2 = -1;
+    TextInputLayout salesorderidtil, remarkstil;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -40,6 +42,8 @@ public class ProductDispatch extends AppCompatActivity {
         sales_order_id = findViewById(R.id.soiEditText);
         generate = findViewById(R.id.generateReceipt2);
         salesOrderRemarks=findViewById(R.id.salesOrderRemarks);
+
+        salesorderidtil=findViewById(R.id.salesorderTextInputLayout);
 
         // -----------Date-----------------------------------------------------
         Date currentDate = new Date();
@@ -60,86 +64,84 @@ public class ProductDispatch extends AppCompatActivity {
             }
         });
 
-        generate.setOnClickListener(new View.OnClickListener() {
+        generate.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 salesorderid = sales_order_id.getText().toString();
+                if(!validateInputs())
+                {
+                    final String database_name = "rinl_yard";
+                    final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
+                    final String username = "admin", password = "admin123";
+                    final String table_name = "Product_Master";
 
-                final String database_name = "rinl_yard";
-                final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
-                final String username = "admin", password = "admin123";
-                final String table_name = "Product_Master";
-
-                if (productID.isEmpty() && bin_number2 == -1) {
-                    Toast.makeText(ProductDispatch.this, "Scan the material or bin first", Toast.LENGTH_SHORT).show();
-                } else {
-                    new Thread(() -> {
-                        try {
-                            Class.forName("com.mysql.jdbc.Driver");
-                            Connection connection = DriverManager.getConnection(url, username, password);
-                            Statement statement = connection.createStatement();
-                            ResultSet resultSet;
-                            String selectQuery;
-                            if (bin_number2 != -1) {
-                                selectQuery = "SELECT Product_Id,Stock_In_Tons FROM " + table_name + " WHERE Bin_No = " + bin_number2;
-                                resultSet = statement.executeQuery(selectQuery);
-                                if (resultSet.next()) {
-                                    productID = resultSet.getString("Product_Id");
-                                    quantity = resultSet.getDouble("Stock_In_Tons");
+                    if (productID.isEmpty() && bin_number2 == -1) {
+                        Toast.makeText(ProductDispatch.this, "Scan the material or bin first", Toast.LENGTH_SHORT).show();
+                    } else {
+                        new Thread(() ->
+                        {
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver");
+                                Connection connection = DriverManager.getConnection(url, username, password);
+                                Statement statement = connection.createStatement();
+                                ResultSet resultSet;
+                                String selectQuery;
+                                if (bin_number2 != -1) {
+                                    selectQuery = "SELECT Product_Id,Stock_In_Tons FROM " + table_name + " WHERE Bin_No = " + bin_number2;
+                                    resultSet = statement.executeQuery(selectQuery);
+                                    if (resultSet.next()) {
+                                        productID = resultSet.getString("Product_Id");
+                                        quantity = resultSet.getDouble("Stock_In_Tons");
+                                    }
+                                } else {
+                                    selectQuery = "SELECT Stock_In_Tons FROM " + table_name + " WHERE Product_Id = " + productID;
+                                    resultSet = statement.executeQuery(selectQuery);
+                                    if (resultSet.next()) {
+                                        quantity = resultSet.getDouble("Stock_In_Tons");
+                                    }
                                 }
-                            } else {
-                                selectQuery = "SELECT Stock_In_Tons FROM " + table_name + " WHERE Product_Id = " + productID;
-                                resultSet = statement.executeQuery(selectQuery);
-                                if (resultSet.next()) {
-                                    quantity = resultSet.getDouble("Stock_In_Tons");
-                                }
+                                //connection.close();
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-                            //connection.close();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
+                        }).start();
+                    }
+
+                    // Sales order ID will already be there(input manually) in the sales _Order table , add remarks and date into the sales_order table
+                    //add that code below then take to next page
+
+                    if (quantity != -1.0 && !productID.isEmpty()) {
+                        final String table_name3 = "Sales_Order";
+
+                        new Thread(() ->
+                        {
+                            try {
+                                Class.forName("com.mysql.jdbc.Driver");
+                                Connection connection = DriverManager.getConnection(url, username, password);
+                                Statement statement = connection.createStatement();
+                                String updateQuery = "UPDATE " + table_name3 + " SET Sales_Order_Date = ?, Product_Id = ?, Sales_Order_Qty_in_Tons = ?, Remarks = ? WHERE Sales_Order_Id = " + salesorderid;
+                                PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+                                preparedStatement.setString(1, dateFormat.format(currentDate));
+                                preparedStatement.setString(2, productID);
+                                preparedStatement.setString(3, String.valueOf(quantity));
+                                preparedStatement.setString(4, salesOrderRemarks.getText().toString());
+                                preparedStatement.execute();
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }).start();
+                        Intent receiptgenpage = new Intent(ProductDispatch.this, DispatchReceiptGeneration.class);
+                        receiptgenpage.putExtra("productid", productID);
+                        receiptgenpage.putExtra("salesorderid", salesorderid);
+                        receiptgenpage.putExtra("Quantity", quantity);
+                        startActivity(receiptgenpage);
+                    } else {
+                        String[] waitingMessage = {"Please wait", "Generating", "Still Generating"};
+                        Toast.makeText(ProductDispatch.this, waitingMessage[new Random().nextInt(waitingMessage.length)], Toast.LENGTH_SHORT).show();
+                    }
                 }
-
-                // Sales order ID will already be there(input manually) in the sales _Order table , add remarks and date into the sales_order table
-                //add that code below then take to next page
-
-
-
-                if (quantity != -1.0 && !productID.isEmpty()) {
-
-
-                    final String table_name3 = "Sales_Order";
-
-                    new Thread(() -> {
-
-
-                        try {
-                            Class.forName("com.mysql.jdbc.Driver");
-                            Connection connection = DriverManager.getConnection(url, username, password);
-                            Statement statement = connection.createStatement();
-                            String updateQuery = "UPDATE " + table_name3 + " SET Sales_Order_Date = ?, Product_Id = ?, Sales_Order_Qty_in_Tons = ?, Remarks = ? WHERE Sales_Order_Id = "+salesorderid;
-                            PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-                            preparedStatement.setString(1,dateFormat.format(currentDate) );
-                            preparedStatement.setString(2, productID);
-                            preparedStatement.setString(3, String.valueOf(quantity));
-                            preparedStatement.setString(4, salesOrderRemarks.getText().toString());
-                            preparedStatement.execute();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }).start();
-
-                    Intent receiptgenpage = new Intent(ProductDispatch.this, DispatchReceiptGeneration.class);
-                    receiptgenpage.putExtra("productid", productID);
-                    receiptgenpage.putExtra("salesorderid", salesorderid);
-                    receiptgenpage.putExtra("Quantity", quantity);
-                    startActivity(receiptgenpage);
-                } else {
-                    String [] waitingMessage={"Please wait" , "Generating", "Still Generating"};
-                    Toast.makeText(ProductDispatch.this, waitingMessage[new Random().nextInt(waitingMessage.length)], Toast.LENGTH_SHORT).show();
-                }
-
             }
         });
     }
@@ -174,5 +176,29 @@ public class ProductDispatch extends AppCompatActivity {
                 }
             }
         }
+    }
+    private boolean validate(String val)
+    {
+        for(int x=0;x<val.length();x++)
+            if(!Character.isLetterOrDigit(val.charAt(x)))
+                return false;
+        return true;
+    }
+    private boolean validateInputs()
+    {
+        if(salesorderid.isEmpty() || salesorderid.length()>6 || !validate(salesorderid))
+        {
+            salesorderidtil.setError("Invalid sales order ID");
+            Toast.makeText(ProductDispatch.this, "Invalid Sales Order ID", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(salesOrderRemarks.getText().length()>60)
+        {
+            salesorderidtil.setError("Invalid Remarks");
+            Toast.makeText(ProductDispatch.this, "Invalid remarks", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
     }
 }
