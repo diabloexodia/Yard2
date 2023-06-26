@@ -56,10 +56,15 @@ public class BinQRGenerator extends AppCompatActivity
             @Override
             public void onClick(View v)
             {
-                frameLayout.setVisibility(View.VISIBLE);
-                progressBar.setVisibility(View.VISIBLE);
-                qrcode.setImageBitmap(null);
-                generateQRCodeAsync(inputText.getText().toString());
+                if(inputText.getText().toString().isEmpty())
+                    Toast.makeText(BinQRGenerator.this, "Please enter Bin number first", Toast.LENGTH_SHORT).show();
+                else
+                {
+                    frameLayout.setVisibility(View.VISIBLE);
+                    progressBar.setVisibility(View.VISIBLE);
+                    qrcode.setImageBitmap(null);
+                    generateQRCodeAsync(inputText.getText().toString());
+                }
             }
         });
 
