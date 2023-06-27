@@ -229,7 +229,7 @@ public class ProductReceive extends AppCompatActivity
                                         @Override
                                         public void run()
                                         {
-                                            Toast.makeText(ProductReceive.this, "Incoreect Bin Scanned. Bin already in use.", Toast.LENGTH_LONG).show();
+                                            Toast.makeText(ProductReceive.this, "Incorrect Bin Scanned. Bin already in use.", Toast.LENGTH_LONG).show();
                                         }
                                     });
                                 }
