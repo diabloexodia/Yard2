@@ -154,9 +154,9 @@ public class ProductReceive extends AppCompatActivity
                 if (qrValues.length == 2 || qrValues.length == 3)
                 {
                     product_id = qrValues[0].trim();
-                    product_description = qrValues[2].trim();
+                    product_description = qrValues[1].trim();
                     if(qrValues.length==3)
-                        product_grade = qrValues[1].trim();
+                        product_grade = qrValues[2].trim();
                     executor.execute(new Runnable()
                     {
                         @Override
