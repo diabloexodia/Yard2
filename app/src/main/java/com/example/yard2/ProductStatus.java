@@ -88,6 +88,19 @@ public class ProductStatus extends AppCompatActivity
                     prodgrad = resultSet.getString("Product_grade");
                     binno = resultSet.getInt("Bin_no");
                 }
+                else
+                {
+                    runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            progressBar.setVisibility(View.INVISIBLE);
+                            layout.setVisibility(View.INVISIBLE);
+                            Toast.makeText(ProductStatus.this, "Product does not exist", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
                 connection.close();
             }
             catch (Exception e)
