@@ -34,7 +34,8 @@ public class ProductStatus extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_status);
         getSupportActionBar().setTitle("View Product Status");
@@ -52,12 +53,15 @@ public class ProductStatus extends AppCompatActivity {
 
         handler = new Handler();
 
-        go.setOnClickListener(new View.OnClickListener() {
+        go.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
+            public void onClick(View v)
+            {
                 if (productID.getText().toString().isEmpty())
                     Toast.makeText(ProductStatus.this, "Invalid Product ID", Toast.LENGTH_SHORT).show();
-                else {
+                else
+                {
                     progressBar.setVisibility(View.VISIBLE);
                     layout.setVisibility(View.INVISIBLE);
                     fetchDataFromDatabase();
@@ -66,16 +70,20 @@ public class ProductStatus extends AppCompatActivity {
         });
     }
 
-    private void fetchDataFromDatabase() {
+    private void fetchDataFromDatabase()
+    {
         final String database_name = "rinl_yard";
         final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
         final String username = "admin", password = "admin123";
         final String table_name = "Product_Master";
 
-        new Thread(new Runnable() {
+        new Thread(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection connection = DriverManager.getConnection(url, username, password);
                     Statement statement = connection.createStatement();
@@ -83,16 +91,21 @@ public class ProductStatus extends AppCompatActivity {
                     String selectQuery;
                     selectQuery = "SELECT * FROM " + table_name + " WHERE Product_Id = " + productID.getText().toString();
                     resultSet = statement.executeQuery(selectQuery);
-                    if (resultSet.next()) {
+                    if (resultSet.next())
+                    {
                         proddesc = resultSet.getString("Product_Desc");
                         prodquan = resultSet.getDouble("Stock_in_Tons");
                         prodgrad = resultSet.getString("Product_grade");
                         binno = resultSet.getInt("Bin_no");
 //                        resultSet.close();
-                    } else {
-                        handler.post(new Runnable() {
+                    }
+                    else
+                    {
+                        handler.post(new Runnable()
+                        {
                             @Override
-                            public void run() {
+                            public void run()
+                            {
                                 progressBar.setVisibility(View.INVISIBLE);
                                 layout.setVisibility(View.INVISIBLE);
                                 Toast.makeText(ProductStatus.this, "Product does not exist", Toast.LENGTH_SHORT).show();
@@ -100,20 +113,25 @@ public class ProductStatus extends AppCompatActivity {
                         });
                     }
                     connection.close();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
 
-                handler.post(new Runnable() {
+                handler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         layout.setVisibility(View.VISIBLE);
                         pid.setText(productID.getText().toString());
                         pdesc.setText(proddesc);
                         pquantity.setText(Double.toString(prodquan));
                         if (binno == -1)
                             currentstatus.setText("Dispatched");
-                        else {
+                        else
+                        {
                             currentstatus.setText("In Yard");
                             pbin.setText(Integer.toString(binno));
                         }
