@@ -23,7 +23,8 @@ import java.sql.Statement;
 import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 
-public class BinStatus extends AppCompatActivity {
+public class BinStatus extends AppCompatActivity
+{
     EditText binno;
     Button go2;
     TextView binnot, bindesc, binloc, binstatus;
@@ -36,7 +37,8 @@ public class BinStatus extends AppCompatActivity {
 
     @SuppressLint("MissingInflatedId")
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bin_status);
         binno = findViewById(R.id.binnoEditText);
@@ -51,12 +53,15 @@ public class BinStatus extends AppCompatActivity {
         executor = Executors.newSingleThreadExecutor();
         handler = new Handler(Looper.getMainLooper());
 
-        go2.setOnClickListener(new View.OnClickListener() {
+        go2.setOnClickListener(new View.OnClickListener()
+        {
             @Override
-            public void onClick(View v) {
-                if (binno.getText().toString().isEmpty()) {
+            public void onClick(View v)
+            {
+                if (binno.getText().toString().isEmpty())
                     Toast.makeText(BinStatus.this, "Invalid bin number", Toast.LENGTH_SHORT).show();
-                } else {
+                else
+                {
                     binnoval = Integer.parseInt(binno.getText().toString());
                     layout.setVisibility(View.INVISIBLE);
                     bar.setVisibility(View.VISIBLE);
@@ -66,16 +71,20 @@ public class BinStatus extends AppCompatActivity {
         });
     }
 
-    private void fetchDataFromDatabase() {
+    private void fetchDataFromDatabase()
+    {
         final String database_name = "rinl_yard";
         final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
         final String username = "admin", password = "admin123";
         final String table_name = "Bin_Master";
 
-        executor.execute(new Runnable() {
+        executor.execute(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection connection = DriverManager.getConnection(url, username, password);
                     Statement statement = connection.createStatement();
@@ -83,18 +92,23 @@ public class BinStatus extends AppCompatActivity {
                     String selectQuery;
                     selectQuery = "SELECT * FROM " + table_name + " WHERE Bin_No = " + binnoval;
                     resultSet = statement.executeQuery(selectQuery);
-                    if (resultSet.next()) {
+                    if (resultSet.next())
+                    {
                         bindescval = resultSet.getString("Bin_Desc");
                         binlocval = resultSet.getString("Bin_Location");
                     }
                     connection.close();
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
 
-                handler.post(new Runnable() {
+                handler.post(new Runnable()
+                {
                     @Override
-                    public void run() {
+                    public void run()
+                    {
                         layout.setVisibility(View.VISIBLE);
                         binnot.setText(Integer.toString(binnoval));
                         bindesc.setText(bindescval);
@@ -106,16 +120,20 @@ public class BinStatus extends AppCompatActivity {
         });
     }
 
-    private void checkProductInBin() {
+    private void checkProductInBin()
+    {
         final String database_name = "rinl_yard";
         final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;
         final String username = "admin", password = "admin123";
         final String table_name = "Product_Master";
 
-        executor.execute(new Runnable() {
+        executor.execute(new Runnable()
+        {
             @Override
-            public void run() {
-                try {
+            public void run()
+            {
+                try
+                {
                     Class.forName("com.mysql.jdbc.Driver");
                     Connection connection = DriverManager.getConnection(url, username, password);
                     Statement statement = connection.createStatement();
@@ -127,18 +145,21 @@ public class BinStatus extends AppCompatActivity {
                     connection.close();
 
                     final boolean finalHasProduct = hasProduct;
-                    handler.post(new Runnable() {
+                    handler.post(new Runnable()
+                    {
                         @Override
-                        public void run() {
+                        public void run()
+                        {
                             bar.setVisibility(View.GONE);
-                            if (finalHasProduct) {
+                            if (finalHasProduct)
                                 binstatus.setText("Bin occupied");
-                            } else {
+                            else
                                 binstatus.setText("Bin is empty");
-                            }
                         }
                     });
-                } catch (Exception e) {
+                }
+                catch (Exception e)
+                {
                     e.printStackTrace();
                 }
             }
