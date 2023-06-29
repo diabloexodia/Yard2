@@ -60,6 +60,8 @@ public class ProductStatus extends AppCompatActivity {
             {
                 if (productID.getText().toString().isEmpty())
                     Toast.makeText(ProductStatus.this, "Invalid Product ID", Toast.LENGTH_SHORT).show();
+                else if(!checkSpecialCharacters(productID.getText().toString()))
+                    Toast.makeText(ProductStatus.this, "Invalid Product ID", Toast.LENGTH_SHORT).show();
                 else
                 {
                     progressBar.setVisibility(View.VISIBLE);
@@ -98,6 +100,27 @@ public class ProductStatus extends AppCompatActivity {
                         prodgrad = resultSet.getString("Product_grade");
                         binno = resultSet.getString("Bin_no");
 //                        resultSet.close();
+
+                        handler.post(new Runnable()
+                        {
+                            @Override
+                            public void run()
+                            {
+                                layout.setVisibility(View.VISIBLE);
+                                pid.setText(productID.getText().toString());
+                                pdesc.setText(proddesc);
+                                pquantity.setText(Double.toString(prodquan));
+                                if (binno.equals(-1))
+                                    currentstatus.setText("Dispatched");
+                                else
+                                {
+                                    currentstatus.setText("In Yard");
+                                    pbin.setText(binno);
+                                }
+                                pgrade.setText(prodgrad);
+                                progressBar.setVisibility(View.INVISIBLE);
+                            }
+                        });
                     }
                     else
                     {
@@ -118,28 +141,14 @@ public class ProductStatus extends AppCompatActivity {
                 {
                     e.printStackTrace();
                 }
-
-                handler.post(new Runnable()
-                {
-                    @Override
-                    public void run()
-                    {
-                        layout.setVisibility(View.VISIBLE);
-                        pid.setText(productID.getText().toString());
-                        pdesc.setText(proddesc);
-                        pquantity.setText(Double.toString(prodquan));
-                        if (binno.equals(-1))
-                            currentstatus.setText("Dispatched");
-                        else
-                        {
-                            currentstatus.setText("In Yard");
-                            pbin.setText(binno);
-                        }
-                        pgrade.setText(prodgrad);
-                        progressBar.setVisibility(View.INVISIBLE);
-                    }
-                });
             }
         }).start();
+    }
+    private boolean checkSpecialCharacters(String s)
+    {
+        for(int x=0;x<s.length();x++)
+            if(!Character.isLetterOrDigit(s.charAt(x)))
+                return false;
+        return true;
     }
 }
