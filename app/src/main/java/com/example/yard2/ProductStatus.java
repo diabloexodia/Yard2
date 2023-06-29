@@ -27,7 +27,7 @@ public class ProductStatus extends AppCompatActivity {
     TextView pid, pdesc, pquantity, currentstatus, pbin, pgrade;
     EditText productID;
     String proddesc, prodgrad;
-    int binno;
+    String binno;
     Double prodquan;
     ProgressBar progressBar;
     Handler handler;
@@ -96,7 +96,7 @@ public class ProductStatus extends AppCompatActivity {
                         proddesc = resultSet.getString("Product_Desc");
                         prodquan = resultSet.getDouble("Stock_in_Tons");
                         prodgrad = resultSet.getString("Product_grade");
-                        binno = resultSet.getInt("Bin_no");
+                        binno = resultSet.getString("Bin_no");
 //                        resultSet.close();
                     }
                     else
@@ -128,12 +128,12 @@ public class ProductStatus extends AppCompatActivity {
                         pid.setText(productID.getText().toString());
                         pdesc.setText(proddesc);
                         pquantity.setText(Double.toString(prodquan));
-                        if (binno == -1)
+                        if (binno.equals(-1))
                             currentstatus.setText("Dispatched");
                         else
                         {
                             currentstatus.setText("In Yard");
-                            pbin.setText(Integer.toString(binno));
+                            pbin.setText(binno);
                         }
                         pgrade.setText(prodgrad);
                         progressBar.setVisibility(View.INVISIBLE);
