@@ -114,6 +114,7 @@ public class ReceiptGeneration extends AppCompatActivity {
                             Connection connection = DriverManager.getConnection(url, username, password);
                             Statement statement = connection.createStatement();
                             // Add to RDS DB with proper value for the foreign key:
+                            String reciept_remarks=remarksEditText.getText().toString();
                             String insertQuery = "INSERT INTO " + table_name + " VALUES(?, ?, ?, ?, ?, ?)";
                             PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
                             preparedStatement.setString(1, receiptTextView.getText().toString());
@@ -121,7 +122,7 @@ public class ReceiptGeneration extends AppCompatActivity {
                             preparedStatement.setString(3, productIdTextView.getText().toString());
                             preparedStatement.setString(4, dateTextView.getText().toString());
                             preparedStatement.setString(5, quantityTextView.getText().toString());
-                            preparedStatement.setString(6, remarksEditText.getText().toString());
+                            preparedStatement.setString(6,reciept_remarks);
                             preparedStatement.execute();
                             connection.close();
                         } catch (Exception e) {

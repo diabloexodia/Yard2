@@ -70,7 +70,7 @@ public class ProductDispatch extends AppCompatActivity {
             public void onClick(View v)
             {
                 salesorderid = sales_order_id.getText().toString();
-                if(!validateInputs())
+                if(validateInputs())
                 {
                     final String database_name = "rinl_yard";
                     final String url = "jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" + database_name;

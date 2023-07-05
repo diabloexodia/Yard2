@@ -82,46 +82,54 @@ public class ProductReceive extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                if (quantityEdittext.getText().toString().isEmpty())
+                if(quantityEdittext==null)
                 {
                     quantitytil.setError("Quantity is needed");
                     Toast.makeText(ProductReceive.this, "Input Quantity", Toast.LENGTH_SHORT).show();
                 }
-                else if (product_id.equals(""))
-                {
+                else if(product_id.equals(""))
                     Toast.makeText(ProductReceive.this, "Please scan the Material QR Code", Toast.LENGTH_SHORT).show();
-                }
-                else if (bin_number.isEmpty())
-                {
+                else if(bin_number=="")
                     Toast.makeText(ProductReceive.this, "Please scan Bin QR Code", Toast.LENGTH_SHORT).show();
-                }
                 else
                 {
-                    quantity = Integer.parseInt(quantityEdittext.getText().toString());
-                    executor.execute(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            try
-                            {
-                                Class.forName("com.mysql.jdbc.Driver");
-                                Connection connection = DriverManager.getConnection(url, username, password);
-                                Statement statement = connection.createStatement();
+                    quantity=Integer.parseInt(quantityEdittext.getText().toString());
 
-                                statement.execute("INSERT INTO " + table_name + " VALUES('" + product_id + "', '" + product_description + "', '" + quantity + "', '" + bin_number + "', '" + product_grade + "')");
-                                //connection.close();
+                    final String database_name="rinl_yard";
+                    final String url="jdbc:mysql://yard2.csze4pgxgikq.ap-southeast-1.rds.amazonaws.com/" +database_name;
+                    final String username="admin",password="admin123";
+                    final String table_name="Product_Master";
+
+                    new Thread(() -> {
+                        try {
+                            Class.forName("com.mysql.jdbc.Driver");
+                            Connection connection = DriverManager.getConnection(url, username, password);
+                            Statement statement = connection.createStatement();
+
+                            String selectQuery = "SELECT * FROM " + table_name + " WHERE product_id = '" + product_id + "'";
+                            ResultSet resultSet = statement.executeQuery(selectQuery);
+
+                            if (resultSet.next()) {
+                                runOnUiThread(() -> Toast.makeText(ProductReceive.this, "Product ID already exists", Toast.LENGTH_SHORT).show());
+//                                throw new Exception("Product ID already exists");
+
+                            } else {
+                                String insertQuery = "INSERT INTO " + table_name + " VALUES('" + product_id + "', '" + product_description + "', '" + quantity + "', '" + bin_number + "', '" + product_grade + "')";
+                                statement.execute(insertQuery);
+                                Intent intent=new Intent(getApplicationContext(),ReceiptGeneration.class);
+                                intent.putExtra("Quantity",quantity);
+                                intent.putExtra("Product ID",product_id);
+                                startActivity(intent);
                             }
-                            catch (Exception e)
-                            {
-                                e.printStackTrace();
-                            }
+
+                            connection.close();
+                        } catch (Exception e) {
+
+                            Toast.makeText(ProductReceive.this, "Product ID already exists", Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
                         }
-                    });
-                    Intent intent = new Intent(getApplicationContext(), ReceiptGeneration.class);
-                    intent.putExtra("Quantity", quantity);
-                    intent.putExtra("Product ID", product_id);
-                    startActivity(intent);
+                    }).start();
+
                 }
             }
         });
